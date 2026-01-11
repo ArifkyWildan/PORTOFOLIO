@@ -1,32 +1,16 @@
+// PART 1 - COPY SEMUA CODE INI KE FILE ANDA
+// File: page.tsx atau HeroSection.tsx
+
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
-import { Github, Link as LinkIcon, X, ArrowLeft, ArrowRight, Linkedin, Instagram, Mail, Menu } from "lucide-react";
+import { Linkedin, Instagram, Github, Mail, Menu, X } from 'lucide-react';
 import { ParallaxProvider, Parallax } from 'react-scroll-parallax';
+import emailjs from '@emailjs/browser';
 import SkillPage from "./components/skills";
 import ProjectData from "./components/project";
 import DummyCertificates from "./components/sertifikat";
-
-
-//=================================================================
-// KOMPONEN IKON SVG (Pengganti react-icons/si)
-//=================================================================
-
-// Ikon untuk Spotify
-const IconSpotify = () => (
-    <svg className="w-6 h-6 text-current" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 2C6.477 2 2 6.477 2 12C2 17.523 6.477 22 12 22C17.523 22 22 17.523 22 12C22 6.477 17.523 2 12 2ZM16.94 16.74C16.74 17.04 16.34 17.14 16.04 16.94C13.74 15.54 10.94 15.24 6.84 16.04C6.54 16.14 6.14 15.94 6.04 15.64C5.94 15.34 6.14 14.94 6.44 14.84C10.94 13.94 14.04 14.34 16.64 15.94C16.94 16.04 17.14 16.44 16.94 16.74ZM18.34 14.94C18.04 15.34 17.54 15.44 17.14 15.14C14.54 13.54 10.34 13.14 6.34 14.14C5.94 14.24 5.54 14.04 5.44 13.64C5.34 13.24 5.54 12.84 5.94 12.74C10.34 11.64 14.94 12.14 17.94 13.94C18.34 14.14 18.54 14.64 18.34 14.94ZM18.44 12.94C15.24 11.04 9.84 10.84 5.74 11.94C5.24 12.04 4.84 11.74 4.74 11.24C4.64 10.74 4.94 10.34 5.44 10.24C10.04 9.04 15.84 9.24 19.54 11.54C19.94 11.84 20.04 12.34 19.74 12.74C19.44 13.14 18.94 13.24 18.44 12.94Z" fill="currentColor" />
-    </svg>
-);
-
-// Ikon untuk Medium
-const IconMedium = () => (
-    <svg className="w-6 h-6 text-current" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M13.54 12.01L21.75 21.19C22.11 21.52 22.08 22.08 21.72 22.39C21.36 22.7 20.8 22.67 20.47 22.31L12.3 13.18L8.1 19.22L6.61 21.41C6.31 21.87 5.76 22.04 5.3 21.74C4.84 21.44 4.67 20.89 4.97 20.43L6.96 17.47L10.06 12.01L5.91 3.01C5.6 2.55 5.77 2 6.23 1.7C6.69 1.4 7.24 1.57 7.55 2.03L13.54 12.01ZM18.44 2.81C18.44 2.81 18.5 2.81 18.5 2.81C19.3 2.81 19.94 3.44 19.94 4.25C19.94 5.03 19.33 5.69 18.56 5.69C17.79 5.69 17.18 5.03 17.18 4.25C17.18 3.44 17.81 2.81 18.44 2.81ZM22.56 2.81C22.56 2.81 22.62 2.81 22.62 2.81C23.41 2.81 24 3.44 24 4.25C24 5.03 23.39 5.69 22.62 5.69C21.85 5.69 21.24 5.03 21.24 4.25C21.24 3.44 21.88 2.81 22.56 2.81Z" fill="currentColor" />
-    </svg>
-);
-
 
 //=================================================================
 // KOMPONEN NAVBAR MODERN
@@ -83,16 +67,10 @@ const ModernNavbar: React.FC = () => {
             <motion.nav
                 initial={{ y: -100 }}
                 animate={{ y: 0 }}
-                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'py-2 sm:py-3' : 'py-4 sm:py-6'
-                    }`}
+                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'py-2 sm:py-3' : 'py-4 sm:py-6'}`}
             >
                 <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-                    <div
-                        className={`relative transition-all duration-300 ${isScrolled
-                            ? 'bg-white/80 backdrop-blur-xl shadow-lg'
-                            : 'bg-white/60 backdrop-blur-md'
-                            } rounded-full border border-gray-200/50`}
-                    >
+                    <div className={`relative transition-all duration-300 ${isScrolled ? 'bg-white/80 backdrop-blur-xl shadow-lg' : 'bg-white/60 backdrop-blur-md'} rounded-full border border-gray-200/50`}>
                         <div className="flex items-center justify-between px-4 sm:px-6 py-2.5 sm:py-3">
                             <a href="#home" className="flex items-center space-x-2 group">
                                 <span className="text-xl sm:text-2xl font-bold text-black tracking-tight">
@@ -105,10 +83,7 @@ const ModernNavbar: React.FC = () => {
                                     <a
                                         key={item.label}
                                         href={item.href}
-                                        className={`relative px-3 xl:px-4 py-2 text-sm font-medium transition-all duration-300 rounded-full ${activeSection === item.href.substring(1)
-                                            ? 'text-white'
-                                            : 'text-gray-600 hover:text-black'
-                                            }`}
+                                        className={`relative px-3 xl:px-4 py-2 text-sm font-medium transition-all duration-300 rounded-full ${activeSection === item.href.substring(1) ? 'text-white' : 'text-gray-600 hover:text-black'}`}
                                     >
                                         {activeSection === item.href.substring(1) && (
                                             <motion.span
@@ -126,7 +101,6 @@ const ModernNavbar: React.FC = () => {
                                 href="https://drive.google.com/file/d/1UElmnEU02snCgXCCTNJsgaFtL3cgxim6/view?usp=sharing"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                download="Arifky_Wildan_CV.pdf"
                                 className="hidden lg:block px-5 xl:px-6 py-2 bg-black text-white text-sm font-medium rounded-full hover:bg-gray-800 transition-all duration-300 shadow-sm hover:shadow-md"
                             >
                                 CV
@@ -163,10 +137,7 @@ const ModernNavbar: React.FC = () => {
                                         animate={{ opacity: 1, x: 0 }}
                                         transition={{ delay: index * 0.05 }}
                                         onClick={() => setIsMobileMenuOpen(false)}
-                                        className={`block px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg sm:rounded-xl text-sm sm:text-base font-medium transition-all duration-200 ${activeSection === item.href.substring(1)
-                                            ? 'bg-black text-white'
-                                            : 'text-gray-600 hover:bg-gray-100'
-                                            }`}
+                                        className={`block px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg sm:rounded-xl text-sm sm:text-base font-medium transition-all duration-200 ${activeSection === item.href.substring(1) ? 'bg-black text-white' : 'text-gray-600 hover:bg-gray-100'}`}
                                     >
                                         {item.label}
                                     </motion.a>
@@ -191,11 +162,9 @@ const ModernNavbar: React.FC = () => {
         </>
     );
 };
-// LANJUTAN DARI PART 1
-// Paste kode Part 1 terlebih dahulu, kemudian lanjutkan dengan kode di bawah ini
 
 //=================================================================
-// KOMPONEN UTAMA (HERO SECTION) - DENGAN PARALLAX
+// KOMPONEN UTAMA (HERO SECTION) - DENGAN PARALLAX & EMAILJS
 //=================================================================
 const HeroSection = () => {
     const [isVisible, setIsVisible] = useState(false);
@@ -211,9 +180,82 @@ const HeroSection = () => {
     const [isCertificatesVisible, setIsCertificatesVisible] = useState(false);
     const [isContactVisible, setIsContactVisible] = useState(false);
 
-    const [currentCert, setCurrentCert] = useState(0);
-    const [selectedServices, setSelectedServices] = useState<string[]>([]);
-    const services = ['Design', 'Development', 'Animation', 'Other'];
+    // State untuk form contact dengan EmailJS
+    const [formData, setFormData] = useState({
+        firstName: '',
+        lastName: '',
+        service: '',
+        email: '',
+        description: ''
+    });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const handleSubmit = async () => {
+        // Validasi form
+        if (!formData.firstName || !formData.email) {
+            alert('Please fill in all required fields (Name and Email)');
+            return;
+        }
+
+        setIsSubmitting(true);
+        setSubmitStatus('idle');
+
+        try {
+            // Template parameters untuk EmailJS
+            const templateParams = {
+                from_name: `${formData.firstName} ${formData.lastName}`.trim(),
+                from_email: formData.email,
+                service: formData.service || 'Not specified',
+                message: formData.description || 'No description provided',
+                to_email: 'muhammadarifkywildan@gmail.com'
+            };
+
+            // ⚠️ GANTI 3 NILAI DI BAWAH INI DENGAN KREDENSIAL EMAILJS ANDA
+            const result = await emailjs.send(
+                'service_pbi275h',      // 👈 Ganti dengan Service ID dari EmailJS
+                'template_8v0g92f',     // 👈 Ganti dengan Template ID dari EmailJS
+                templateParams,
+                'pb4tbaVnR7_okhHW6'       // 👈 Ganti dengan Public Key dari EmailJS
+            );
+
+            console.log('Email sent successfully:', result.text);
+            setSubmitStatus('success');
+
+            // Reset form
+            setFormData({
+                firstName: '',
+                lastName: '',
+                service: '',
+                email: '',
+                description: ''
+            });
+
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                setSubmitStatus('idle');
+            }, 5000);
+
+        } catch (error) {
+            console.error('Failed to send email:', error);
+            setSubmitStatus('error');
+
+            // Hide error message after 5 seconds
+            setTimeout(() => {
+                setSubmitStatus('idle');
+            }, 5000);
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -254,14 +296,6 @@ const HeroSection = () => {
         };
     }, []);
 
-    const toggleService = (service: string) => {
-        setSelectedServices((prev) =>
-            prev.includes(service)
-                ? prev.filter((s) => s !== service)
-                : [...prev, service]
-        );
-    };
-
     const customStyles = `
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
         
@@ -292,6 +326,20 @@ const HeroSection = () => {
             outline: none;
             border-color: #111111;
         }
+
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-in {
+            animation: fade-in 0.3s ease-out;
+        }
     `;
 
     return (
@@ -303,7 +351,6 @@ const HeroSection = () => {
                     <ModernNavbar />
 
                     <div className="relative w-full h-screen overflow-hidden bg-black">
-                        {/* Background Image with Parallax Blur */}
                         <Parallax speed={-10}>
                             <div
                                 className="absolute inset-0 bg-cover bg-center"
@@ -318,7 +365,6 @@ const HeroSection = () => {
 
                         <div className="absolute inset-0 bg-black/30" />
 
-                        {/* Content with Parallax */}
                         <div className="relative z-10 h-full flex items-center px-8 md:px-16 lg:px-24">
                             <div className="max-w-4xl">
                                 <Parallax speed={5}>
@@ -452,80 +498,193 @@ const HeroSection = () => {
                     </Parallax>
                 </section>
 
+                {/* CONTACT SECTION DENGAN EMAILJS - LANJUTAN DARI PART 1 */}
                 <section id="contact" ref={contactRef} className="py-20 md:py-32 px-4 sm:px-8 md:px-12 overflow-hidden">
-                    <div className="max-w-7xl mx-auto">
-                        <Parallax speed={-5}>
-                            <div className={`animated-item ${isContactVisible ? 'visible' : ''}`}>
-                                <h2 className="font-playfair text-6xl md:text-8xl font-normal text-black">Contact us</h2>
-                            </div>
-                        </Parallax>
+                    <div className="min-h-screen bg-gray-50">
+                        <main className="max-w-7xl mx-auto px-6 py-16">
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                                <div>
+                                    <h1 className="text-7xl font-bold mb-8">Contact me</h1>
 
-                        <Parallax speed={-3}>
-                            <div className={`animated-item ${isContactVisible ? 'visible' : ''} mt-4 md:mt-0`} style={{ transitionDelay: '100ms' }}>
-                                <h3 className="font-playfair text-5xl md:text-7xl text-gray-500">— Have a project?</h3>
-                            </div>
-                        </Parallax>
-
-                        <div className="mt-16 md:mt-24 grid grid-cols-1 md:grid-cols-3 gap-16">
-                            <Parallax speed={3}>
-                                <form className="md:col-span-2 space-y-10" onSubmit={(e) => e.preventDefault()}>
-                                    <div className={`animated-item ${isContactVisible ? 'visible' : ''}`} style={{ transitionDelay: '200ms' }}>
-                                        <label className="text-lg text-gray-800">What can we do for you?</label>
-                                    </div>
-
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                        <div className={`animated-item ${isContactVisible ? 'visible' : ''} flex flex-col`} style={{ transitionDelay: '300ms' }}>
-                                            <label htmlFor="name" className="text-lg text-gray-800">Your name</label>
-                                            <input type="text" id="name" className="mt-2 contact-input" />
+                                    <div className="space-y-6 text-sm">
+                                        <div>
+                                            <p className="text-gray-600">Bogor, Indonesia</p>
+                                            <p className="text-gray-600">2026</p>
                                         </div>
-                                        <div className={`animated-item ${isContactVisible ? 'visible' : ''} flex flex-col`} style={{ transitionDelay: '400ms' }}>
-                                            <label htmlFor="email" className="text-lg text-gray-800">Your email</label>
-                                            <input type="email" id="email" className="mt-2 contact-input" />
+
+                                        <div>
+                                            <p className="font-semibold">Office hours</p>
+                                            <p className="text-gray-600">Monday - Friday</p>
+                                            <p className="text-gray-600">8 AM - 7 PM</p>
                                         </div>
                                     </div>
 
-                                    <div className={`animated-item ${isContactVisible ? 'visible' : ''} flex flex-col`} style={{ transitionDelay: '500ms' }}>
-                                        <label htmlFor="details" className="text-lg text-gray-800">Project details</label>
-                                        <textarea id="details" rows={4} className="mt-2 contact-input resize-none"></textarea>
-                                    </div>
+                                    <div className="mt-32">
+                                        <h2 className="text-3xl font-bold mb-4">muhammadarifkywildan@gmail.com</h2>
 
-                                    <div className={`animated-item ${isContactVisible ? 'visible' : ''}`} style={{ transitionDelay: '600ms' }}>
-                                        <button type="submit" className="inline-block px-10 py-4 border-2 border-black rounded-full font-bold text-black tracking-widest hover:bg-black hover:text-white transition-all duration-300">
-                                            Send
-                                        </button>
-                                    </div>
-                                </form>
-                            </Parallax>
+                                        <div className="space-y-4 text-sm">
+                                            <div>
+                                                <p className="text-gray-600">Bogor, Indonesia</p>
+                                                <p className="text-gray-600">2026</p>
+                                            </div>
 
-                            <Parallax speed={5}>
-                                <div className="md:col-span-1">
-                                    <div className={`animated-item ${isContactVisible ? 'visible' : ''}`} style={{ transitionDelay: '300ms' }}>
-                                        <h4 className="text-lg text-black">Tell us about your vision:</h4>
-                                        <p className="mt-4 text-gray-600 leading-relaxed">
-                                            which challenges are you facing? What are your goals and expectations? What would success look like and how much are you planning to spend to get there?
-                                        </p>
-                                    </div>
+                                            <div className="flex items-center space-x-2">
+                                                <span className="text-gray-600">Monday - Friday, 8 AM - 7 PM</span>
+                                                <span className="text-gray-400">|</span>
+                                                <a href="#" className="text-gray-600 hover:text-black underline">Work with me</a>
+                                            </div>
+                                        </div>
 
-                                    <div className={`animated-item ${isContactVisible ? 'visible' : ''} mt-12`} style={{ transitionDelay: '500ms' }}>
-                                        <h4 className="text-lg text-black mb-4">Find me on:</h4>
-                                        <div className="flex space-x-6 text-gray-500">
-                                            <a href="https://www.linkedin.com/in/arifky-wildan-02369a337/" className="hover:text-black transition-colors" aria-label="LinkedIn">
-                                                <Linkedin size={24} />
+                                        <div className="mt-6 flex items-center space-x-6">
+                                            <a href="https://www.linkedin.com/in/arifky-wildan-02369a337/" className="text-gray-600 hover:text-black" target="_blank" rel="noopener noreferrer">
+                                                <Linkedin size={20} />
                                             </a>
-                                            <a href="https://www.instagram.com/arfkywldn/" className="hover:text-black transition-colors" aria-label="Instagram">
-                                                <Instagram size={24} />
+                                            <a href="https://www.instagram.com/arfkywldn/" className="text-gray-600 hover:text-black" target="_blank" rel="noopener noreferrer">
+                                                <Instagram size={20} />
                                             </a>
-                                            <a href="https://github.com/ArifkyWildan" className="hover:text-black transition-colors" aria-label="Github">
-                                                <Github size={24} />
+                                            <a href="https://github.com/ArifkyWildan" className="text-gray-600 hover:text-black" target="_blank" rel="noopener noreferrer">
+                                                <Github size={20} />
                                             </a>
-                                            <a href="mailto:muhammadarifkywildan@gmail.com" className="hover:text-black transition-colors" aria-label="Email">
-                                                <Mail size={24} />
+                                            <a href="mailto:muhammadarifkywildan@gmail.com" className="text-gray-600 hover:text-black" target="_blank" rel="noopener noreferrer">
+                                                <Mail size={20} />
                                             </a>
                                         </div>
                                     </div>
                                 </div>
-                            </Parallax>
-                        </div>
+
+                                <div>
+                                    <div className="space-y-6">
+                                        <div>
+                                            <label className="block text-sm font-medium mb-2">
+                                                Name <span className="text-red-500">*</span>
+                                            </label>
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <div>
+                                                    <input
+                                                        type="text"
+                                                        name="firstName"
+                                                        value={formData.firstName}
+                                                        onChange={handleChange}
+                                                        placeholder="First Name"
+                                                        className="w-full px-0 py-2 border-b border-gray-300 focus:border-black outline-none bg-transparent text-sm"
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <input
+                                                        type="text"
+                                                        name="lastName"
+                                                        value={formData.lastName}
+                                                        onChange={handleChange}
+                                                        placeholder="Last Name"
+                                                        className="w-full px-0 py-2 border-b border-gray-300 focus:border-black outline-none bg-transparent text-sm"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <label htmlFor="service" className="block text-sm font-medium mb-2">
+                                                Service
+                                            </label>
+                                            <select
+                                                id="service"
+                                                name="service"
+                                                value={formData.service}
+                                                onChange={handleChange}
+                                                className="w-full px-0 py-2 border-b border-gray-300 focus:border-black outline-none bg-transparent text-sm text-gray-600"
+                                            >
+                                                <option value="">Select a service</option>
+                                                <option value="web-design">Web Design</option>
+                                                <option value="web-development">Web Development</option>
+                                                <option value="mobile-app">Mobile App Development</option>
+                                                <option value="consultation">Consultation</option>
+                                            </select>
+                                        </div>
+
+                                        <div>
+                                            <label htmlFor="email" className="block text-sm font-medium mb-2">
+                                                Email <span className="text-red-500">*</span>
+                                            </label>
+                                            <input
+                                                type="email"
+                                                id="email"
+                                                name="email"
+                                                value={formData.email}
+                                                onChange={handleChange}
+                                                className="w-full px-0 py-2 border-b border-gray-300 focus:border-black outline-none bg-transparent text-sm"
+                                            />
+                                        </div>
+
+                                        <div>
+                                            <label htmlFor="description" className="block text-sm font-medium mb-2">
+                                                Project description
+                                            </label>
+                                            <textarea
+                                                id="description"
+                                                name="description"
+                                                value={formData.description}
+                                                onChange={handleChange}
+                                                rows={4}
+                                                className="w-full px-0 py-2 border-b border-gray-300 focus:border-black outline-none bg-transparent text-sm resize-none"
+                                            ></textarea>
+                                        </div>
+
+                                        {submitStatus === 'success' && (
+                                            <div className="p-4 bg-green-50 border border-green-200 rounded-lg animate-fade-in">
+                                                <p className="text-green-800 text-sm">
+                                                    ✓ Message sent successfully! I'll get back to you soon.
+                                                </p>
+                                            </div>
+                                        )}
+
+                                        {submitStatus === 'error' && (
+                                            <div className="p-4 bg-red-50 border border-red-200 rounded-lg animate-fade-in">
+                                                <p className="text-red-800 text-sm">
+                                                    ✗ Failed to send message. Please try again or email me directly at{' '}
+                                                    <a
+                                                        href="mailto:muhammadarifkywildan@gmail.com"
+                                                        className="underline hover:text-red-900"
+                                                    >
+                                                        muhammadarifkywildan@gmail.com
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        )}
+
+                                        <button
+                                            onClick={handleSubmit}
+                                            disabled={isSubmitting}
+                                            className={`px-8 py-3 bg-black text-white text-sm font-medium rounded hover:bg-gray-800 transition-all duration-300 ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer shadow-md hover:shadow-lg'
+                                                }`}
+                                        >
+                                            {isSubmitting ? (
+                                                <span className="flex items-center justify-center">
+                                                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                    </svg>
+                                                    Sending...
+                                                </span>
+                                            ) : (
+                                                'Submit'
+                                            )}
+                                        </button>
+                                    </div>
+
+                                    <div className="mt-12 text-sm text-gray-600">
+                                        <p>Say hello. <a href="mailto:muhammadarifkywildan@gmail.com" className="underline hover:text-black">Work with me</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </main>
+
+                        <footer className="border-t border-gray-200 mt-20">
+                            <div className="max-w-7xl mx-auto px-6 py-6">
+                                <p className="text-xs text-gray-500">
+                                    © 2025 Arifky Wildan | Built with Next.js & EmailJS
+                                </p>
+                            </div>
+                        </footer>
                     </div>
                 </section>
             </div>

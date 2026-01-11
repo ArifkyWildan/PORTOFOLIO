@@ -8,20 +8,20 @@ const dummyCertificates = [
 ];
 
 export default function CertificatesSection({ certificates = dummyCertificates }) {
-  const [selectedCert, setSelectedCert] = useState(null);
-  const [draggedIndex, setDraggedIndex] = useState(null);
+  const [selectedCert, setSelectedCert] = useState<typeof dummyCertificates[0] | null>(null);
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
   const [scale, setScale] = useState(1);
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const startXRef = useRef(0);
   const startScaleRef = useRef(1);
 
-  const handleMouseDown = (e, index) => {
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
     setDraggedIndex(index);
     startXRef.current = e.clientX;
     startScaleRef.current = scale;
   };
 
-  const handleMouseMove = (e) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (draggedIndex !== null) {
       const deltaX = e.clientX - startXRef.current;
       const scaleChange = deltaX / 200;
@@ -34,7 +34,7 @@ export default function CertificatesSection({ certificates = dummyCertificates }
     setDraggedIndex(null);
   };
 
-  const openModal = (cert) => {
+  const openModal = (cert: typeof dummyCertificates[0]) => {
     setSelectedCert(cert);
   };
 
