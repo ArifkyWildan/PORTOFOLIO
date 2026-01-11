@@ -1,7 +1,20 @@
 import React, { useState } from 'react';
 import { X, ArrowUpRight, ExternalLink, Github } from 'lucide-react';
 
-const projectData = [
+interface Project {
+  id: number;
+  title: string;
+  image: string;
+  description: string;
+  fullDescription: string;
+  github: string;
+  demo: string;
+  tags: string[];
+  year: string;
+  category: string;
+}
+
+const projectData: Project[] = [
   {
     id: 1,
     title: 'Website Pemesanan Hotel',
@@ -76,12 +89,19 @@ const projectData = [
   },
 ];
 
-const ProjectCard = ({ project, onClick, index }) => {
+interface ProjectCardProps {
+  project: Project;
+  onClick: (project: Project) => void;
+  index: number;
+}
+
+const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick, index }) => {
   const [isHovered, setIsHovered] = useState(false);
 
-  const handleImageError = (e) => {
-    e.target.onerror = null;
-    e.target.src = `https://placehold.co/600x400/e5e7eb/6b7280?text=${encodeURIComponent(project.title)}`;
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    const target = e.target as HTMLImageElement;
+    target.onerror = null;
+    target.src = `https://placehold.co/600x400/e5e7eb/6b7280?text=${encodeURIComponent(project.title)}`;
   };
 
   return (
@@ -170,7 +190,12 @@ const ProjectCard = ({ project, onClick, index }) => {
   );
 };
 
-const ProjectModal = ({ project, onClose }) => {
+interface ProjectModalProps {
+  project: Project;
+  onClose: () => void;
+}
+
+const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) => {
   React.useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => {
@@ -178,18 +203,19 @@ const ProjectModal = ({ project, onClose }) => {
     };
   }, []);
 
-  const handleImageError = (e) => {
-    e.target.onerror = null;
-    e.target.src = `https://placehold.co/1200x600/e5e7eb/6b7280?text=${encodeURIComponent(project.title)}`;
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    const target = e.target as HTMLImageElement;
+    target.onerror = null;
+    target.src = `https://placehold.co/1200x600/e5e7eb/6b7280?text=${encodeURIComponent(project.title)}`;
   };
 
-  const handleBackdropClick = (e) => {
+  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       onClose();
     }
   };
 
-  const handleModalClick = (e) => {
+  const handleModalClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
   };
 
@@ -297,7 +323,7 @@ const ProjectModal = ({ project, onClose }) => {
 };
 
 export default function ProjectsShowcase() {
-  const [selectedProject, setSelectedProject] = useState(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [filter, setFilter] = useState('All');
 
   const categories = ['All', ...Array.from(new Set(projectData.map(p => p.category)))];
@@ -393,8 +419,8 @@ export default function ProjectsShowcase() {
                 key={category}
                 onClick={() => setFilter(category)}
                 className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${filter === category
-                  ? 'bg-gray-900 text-white shadow-lg scale-105'
-                  : 'bg-white text-gray-700 hover:bg-gray-50 shadow-md hover:shadow-lg border border-gray-200'
+                    ? 'bg-gray-900 text-white shadow-lg scale-105'
+                    : 'bg-white text-gray-700 hover:bg-gray-50 shadow-md hover:shadow-lg border border-gray-200'
                   }`}
               >
                 {category}
