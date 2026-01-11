@@ -114,7 +114,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick, index }) =>
         animation: `fadeInUp 0.6s ease-out ${index * 0.1}s both`
       }}
     >
-      <div className="relative overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100">
+      <div className="relative overflow-hidden rounded-2xl bg-gray-50 -lg hover:shadow-2xl transition-all duration-500 border border-gray-100">
         <div className="relative h-72 overflow-hidden bg-gray-100">
           <img
             src={project.image}
@@ -380,7 +380,7 @@ export default function ProjectsShowcase() {
         }
       `}</style>
 
-      <section className="w-full min-h-screen py-16 md:py-24 bg-gradient-to-br from-gray-50 via-white to-gray-100">
+      <section className="w-full min-h-screen py-16 md:py-24 bg-gray-50">
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="mb-16 md:mb-20">
             <div
@@ -419,8 +419,8 @@ export default function ProjectsShowcase() {
                 key={category}
                 onClick={() => setFilter(category)}
                 className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${filter === category
-                    ? 'bg-gray-900 text-white shadow-lg scale-105'
-                    : 'bg-white text-gray-700 hover:bg-gray-50 shadow-md hover:shadow-lg border border-gray-200'
+                  ? 'bg-gray-900 text-white shadow-lg scale-105'
+                  : 'bg-white text-gray-700 hover:bg-gray-50 shadow-md hover:shadow-lg border border-gray-200'
                   }`}
               >
                 {category}
@@ -436,27 +436,6 @@ export default function ProjectsShowcase() {
                 onClick={setSelectedProject}
                 index={index}
               />
-            ))}
-          </div>
-
-          <div
-            className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6"
-            style={{ animation: 'fadeInUp 0.6s ease-out 0.5s both' }}
-          >
-            {[
-              { label: 'Projects Completed', value: projectData.length },
-              { label: 'Technologies', value: Array.from(new Set(projectData.flatMap(p => p.tags))).length },
-              { label: 'Years Experience', value: '3+' },
-              { label: 'Client Satisfaction', value: '100%' }
-            ].map((stat, i) => (
-              <div key={i} className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 text-center hover:shadow-xl transition-shadow duration-300">
-                <div className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
-                  {stat.value}
-                </div>
-                <div className="text-gray-600 text-sm font-medium">
-                  {stat.label}
-                </div>
-              </div>
             ))}
           </div>
         </div>

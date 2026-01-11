@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
 import { Github, Link as LinkIcon, X, ArrowLeft, ArrowRight, Linkedin, Instagram, Mail, Menu } from "lucide-react";
+import { ParallaxProvider, Parallax } from 'react-scroll-parallax';
 import SkillPage from "./components/skills";
 import ProjectData from "./components/project";
 import DummyCertificates from "./components/sertifikat";
@@ -53,12 +54,9 @@ const ModernNavbar: React.FC = () => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 20);
 
-            // Detect active section with better accuracy
             const sections = navItems.map(item => item.href.substring(1));
-
-            // Find the current section based on scroll position
             let current = 'home';
-            const scrollPosition = window.scrollY + 150; // Offset for navbar height
+            const scrollPosition = window.scrollY + 150;
 
             for (const section of sections) {
                 const element = document.getElementById(section);
@@ -75,9 +73,7 @@ const ModernNavbar: React.FC = () => {
             setActiveSection(current);
         };
 
-        // Initial check
         handleScroll();
-
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
@@ -98,14 +94,12 @@ const ModernNavbar: React.FC = () => {
                             } rounded-full border border-gray-200/50`}
                     >
                         <div className="flex items-center justify-between px-4 sm:px-6 py-2.5 sm:py-3">
-                            {/* Logo */}
                             <a href="#home" className="flex items-center space-x-2 group">
                                 <span className="text-xl sm:text-2xl font-bold text-black tracking-tight">
                                     𝓦<span className="text-[#FF3B3B]">.</span>
                                 </span>
                             </a>
 
-                            {/* Desktop Navigation */}
                             <div className="hidden lg:flex items-center space-x-1">
                                 {navItems.map((item) => (
                                     <a
@@ -128,7 +122,6 @@ const ModernNavbar: React.FC = () => {
                                 ))}
                             </div>
 
-                            {/* CTA Button - Desktop */}
                             <a
                                 href="https://drive.google.com/file/d/1UElmnEU02snCgXCCTNJsgaFtL3cgxim6/view?usp=sharing"
                                 target="_blank"
@@ -139,7 +132,6 @@ const ModernNavbar: React.FC = () => {
                                 CV
                             </a>
 
-                            {/* Mobile Menu Button */}
                             <button
                                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                                 className="lg:hidden p-2 text-gray-600 hover:text-black transition-colors"
@@ -152,7 +144,6 @@ const ModernNavbar: React.FC = () => {
                 </div>
             </motion.nav>
 
-            {/* Mobile Menu */}
             <AnimatePresence>
                 {isMobileMenuOpen && (
                     <motion.div
@@ -200,10 +191,11 @@ const ModernNavbar: React.FC = () => {
         </>
     );
 };
-
+// LANJUTAN DARI PART 1
+// Paste kode Part 1 terlebih dahulu, kemudian lanjutkan dengan kode di bawah ini
 
 //=================================================================
-// KOMPONEN UTAMA (HERO SECTION) - PART 1
+// KOMPONEN UTAMA (HERO SECTION) - DENGAN PARALLAX
 //=================================================================
 const HeroSection = () => {
     const [isVisible, setIsVisible] = useState(false);
@@ -220,7 +212,6 @@ const HeroSection = () => {
     const [isContactVisible, setIsContactVisible] = useState(false);
 
     const [currentCert, setCurrentCert] = useState(0);
-
     const [selectedServices, setSelectedServices] = useState<string[]>([]);
     const services = ['Design', 'Development', 'Animation', 'Other'];
 
@@ -304,7 +295,7 @@ const HeroSection = () => {
     `;
 
     return (
-        <>
+        <ParallaxProvider>
             <style>{customStyles}</style>
 
             <div id="home" className="min-h-screen flex flex-col justify-between" style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', backgroundColor: '#F8F8F8', color: '#111111' }}>
@@ -312,214 +303,233 @@ const HeroSection = () => {
                     <ModernNavbar />
 
                     <div className="relative w-full h-screen overflow-hidden bg-black">
-                        {/* Background Image with Blur */}
-                        <div
-                            className="absolute inset-0 bg-cover bg-center"
-                            style={{
-                                backgroundImage: 'url(/lobby.jpeg)',
-                                filter: 'blur(3px) brightness(0.7)',
-                                transform: 'scale(1.1)'
-                            }}
-                        />
+                        {/* Background Image with Parallax Blur */}
+                        <Parallax speed={-10}>
+                            <div
+                                className="absolute inset-0 bg-cover bg-center"
+                                style={{
+                                    backgroundImage: 'url(/lobby.jpeg)',
+                                    filter: 'blur(3px) brightness(0.7)',
+                                    transform: 'scale(1.1)',
+                                    height: '120vh'
+                                }}
+                            />
+                        </Parallax>
 
-                        {/* Dark Overlay */}
                         <div className="absolute inset-0 bg-black/30" />
 
-                        {/* Content */}
+                        {/* Content with Parallax */}
                         <div className="relative z-10 h-full flex items-center px-8 md:px-16 lg:px-24">
                             <div className="max-w-4xl">
-                                <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-light text-white tracking-wider leading-tight mb-2">
-                                    SOFTWARE
-                                </h1>
-                                <div className="flex items-center gap-3">
-                                    <span className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-light text-white tracking-wider">&</span>
-                                    <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-light text-white tracking-wider">
-                                        DEVELOPER
+                                <Parallax speed={5}>
+                                    <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-light text-white tracking-wider leading-tight mb-2">
+                                        SOFTWARE
                                     </h1>
+                                </Parallax>
+                                <Parallax speed={8}>
+                                    <div className="flex items-center gap-3">
+                                        <span className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-light text-white tracking-wider">&</span>
+                                        <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-light text-white tracking-wider">
+                                            DEVELOPER
+                                        </h1>
+                                    </div>
+                                </Parallax>
+                            </div>
+                        </div>
+
+                        <Parallax speed={-5}>
+                            <div className="absolute bottom-8 left-8 z-20">
+                                <p className="text-white text-sm sm:text-base font-light tracking-wide">
+                                    Arifky Wildan
+                                </p>
+                            </div>
+                        </Parallax>
+
+                        <Parallax speed={-5}>
+                            <div className="absolute bottom-8 right-8 z-20 flex items-center gap-2">
+                                <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                    </svg>
                                 </div>
+                                <p className="text-white text-sm sm:text-base font-light">
+                                    muhammadarifkywildan@gmail.com
+                                </p>
                             </div>
-                        </div>
-
-                        {/* Bottom Left - Name */}
-                        <div className="absolute bottom-8 left-8 z-20">
-                            <p className="text-white text-sm sm:text-base font-light tracking-wide">
-                                Arifky Wildan
-                            </p>
-                        </div>
-
-                        {/* Bottom Right - Email with Icon */}
-                        <div className="absolute bottom-8 right-8 z-20 flex items-center gap-2">
-                            <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                                <svg
-                                    className="w-4 h-4 text-white"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                                    />
-                                </svg>
-                            </div>
-                            <p className="text-white text-sm sm:text-base font-light">
-                                muhammadarifkywildan@gmail.com
-                            </p>
-                        </div>
+                        </Parallax>
                     </div>
                 </div>
 
                 <section id="about" ref={aboutRef} className="py-20 md:py-32 px-4 sm:px-8 md:px-12 overflow-hidden">
                     <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
-                        <div className="text-center md:text-left">
-                            <div className={`animated-item ${isAboutVisible ? 'visible' : ''} inline-flex items-center justify-center md:justify-start`}>
-                                <h2 className="text-6xl md:text-8xl font-extrabold tracking-tighter text-black flex items-center">
-                                    AB<span className="w-12 h-12 md:w-16 md:h-16 bg-[#FF3B3B] rounded-full mx-2"></span>UT
-                                </h2>
+                        <Parallax speed={-5}>
+                            <div className="text-center md:text-left">
+                                <div className={`animated-item ${isAboutVisible ? 'visible' : ''} inline-flex items-center justify-center md:justify-start`}>
+                                    <h2 className="text-6xl md:text-8xl font-extrabold tracking-tighter text-black flex items-center">
+                                        AB<span className="w-12 h-12 md:w-16 md:h-16 bg-[#FF3B3B] rounded-full mx-2"></span>UT
+                                    </h2>
+                                </div>
+                                <div className={`animated-item ${isAboutVisible ? 'visible' : ''} w-48 h-1 bg-black mx-auto md:mx-0 mt-4`} style={{ transitionDelay: '100ms' }}></div>
+                                <p className={`animated-item ${isAboutVisible ? 'visible' : ''} mt-8 text-gray-600 text-lg`} style={{ transitionDelay: '200ms' }}>
+                                    Hello! My name Wildan.
+                                    I am a passionate Software Developer and Fullstack Web Developer, currently studying at SMK Informatika Pesat. With a strong interest in technology and innovation, I've been developing my skills in various programming languages such as JavaScript, Laravel, and other modern web technologies. <br />
+
+                                    <br /> I strive to continuously improve my technical expertise and problem-solving abilities to create efficient, scalable, and user-friendly software solutions. My vision is to become a Software Engineer who contributes to meaningful projects, helping people and companies achieve their goals through technology. <br /><br />
+
+                                    I believe that great software can make a real impact — not only improving business operations but also making life easier for others. I'm committed to growing both personally and professionally to be a developer who builds solutions that matter.
+                                </p>
                             </div>
-                            <div className={`animated-item ${isAboutVisible ? 'visible' : ''} w-48 h-1 bg-black mx-auto md:mx-0 mt-4`} style={{ transitionDelay: '100ms' }}></div>
-                            <p className={`animated-item ${isAboutVisible ? 'visible' : ''} mt-8 text-gray-600 text-lg`} style={{ transitionDelay: '200ms' }}>
-                                Hello! My name Wildan.
-                                I am a passionate Software Developer and Fullstack Web Developer, currently studying at SMK Informatika Pesat. With a strong interest in technology and innovation, I've been developing my skills in various programming languages such as JavaScript, Laravel, and other modern web technologies. <br />
+                        </Parallax>
 
-                                <br /> I strive to continuously improve my technical expertise and problem-solving abilities to create efficient, scalable, and user-friendly software solutions. My vision is to become a Software Engineer who contributes to meaningful projects, helping people and companies achieve their goals through technology. <br /><br />
-
-                                I believe that great software can make a real impact — not only improving business operations but also making life easier for others. I'm committed to growing both personally and professionally to be a developer who builds solutions that matter.
-                            </p>
-
-                        </div>
-                        <div className={`relative flex justify-center items-center animated-item ${isAboutVisible ? 'visible' : ''}`} style={{ transitionDelay: '400ms' }}>
-                            <div className="relative w-72 h-72 sm:w-80 sm:h-80 lg:w-96 lg:h-96">
-                                <svg className="absolute inset-0 w-full h-full text-[#FF3B3B] transform scale-110" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M50 0V100" stroke="currentColor" strokeWidth="6" /><path d="M0 50H100" stroke="currentColor" strokeWidth="6" /><path d="M15 15L85 85" stroke="currentColor" strokeWidth="6" /><path d="M85 15L15 85" stroke="currentColor" strokeWidth="6" />
-                                </svg>
-                                <div className="absolute inset-0 flex justify-center items-center p-4">
-                                    <img src="/poto.jpg" alt="A portrait of Arifky Wildan, a software engineer." className="w-full h-full object-cover rounded-full filter grayscale shadow-2xl" />
+                        <Parallax speed={5} scale={[0.8, 1.1]}>
+                            <div className={`relative flex justify-center items-center animated-item ${isAboutVisible ? 'visible' : ''}`} style={{ transitionDelay: '400ms' }}>
+                                <div className="relative w-72 h-72 sm:w-80 sm:h-80 lg:w-96 lg:h-96">
+                                    <svg className="absolute inset-0 w-full h-full text-[#FF3B3B] transform scale-110" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M50 0V100" stroke="currentColor" strokeWidth="6" />
+                                        <path d="M0 50H100" stroke="currentColor" strokeWidth="6" />
+                                        <path d="M15 15L85 85" stroke="currentColor" strokeWidth="6" />
+                                        <path d="M85 15L15 85" stroke="currentColor" strokeWidth="6" />
+                                    </svg>
+                                    <div className="absolute inset-0 flex justify-center items-center p-4">
+                                        <img src="/poto.jpg" alt="A portrait of Arifky Wildan, a software engineer." className="w-full h-full object-cover rounded-full filter grayscale shadow-2xl" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </Parallax>
                     </div>
                 </section>
 
                 <section className="w-full py-12 md:py-20 overflow-hidden">
-                    <div className="transform -rotate-3 scale-110 bg-black text-white py-4">
-                        <div className="scrolling-text-container">
-                            <div className="scrolling-text text-lg font-medium tracking-widest italic">
-                                <span className="mx-4">UI/UX</span><span className="text-[#FF3B3B] mx-2">✺</span>
-                                <span className="mx-4">MOBILE APP</span><span className="text-[#FF3B3B] mx-2">✺</span>
-                                <span className="mx-4">WEBSITE DEV</span><span className="text-[#FF3B3B] mx-2">✺</span>
-                                <span className="mx-4">FRONTEND</span><span className="text-[#FF3B3B] mx-2">✺</span>
-                                <span className="mx-4">BACKEND</span><span className="text-[#FF3B3B] mx-2">✺</span>
-                                <span className="mx-4">ENGINEER</span><span className="text-[#FF3B3B] mx-2">✺</span>
-                                <span className="mx-4">DESIGN</span><span className="text-[#FF3B3B] mx-2">✺</span>
-                                <span className="mx-4">UI/UX</span><span className="text-[#FF3B3B] mx-2">✺</span>
-                                <span className="mx-4">MOBILE APP</span><span className="text-[#FF3B3B] mx-2">✺</span>
-                                <span className="mx-4">WEBSITE DEV</span><span className="text-[#FF3B3B] mx-2">✺</span>
-                                <span className="mx-4">FRONTEND</span><span className="text-[#FF3B3B] mx-2">✺</span>
-                                <span className="mx-4">BACKEND</span><span className="text-[#FF3B3B] mx-2">✺</span>
-                                <span className="mx-4">ENGINEER</span><span className="text-[#FF3B3B] mx-2">✺</span>
-                                <span className="mx-4">DESIGN</span><span className="text-[#FF3B3B] mx-2">✺</span>
+                    <Parallax speed={10}>
+                        <div className="transform -rotate-3 scale-110 bg-black text-white py-4">
+                            <div className="scrolling-text-container">
+                                <div className="scrolling-text text-lg font-medium tracking-widest italic">
+                                    <span className="mx-4">UI/UX</span><span className="text-[#FF3B3B] mx-2">✺</span>
+                                    <span className="mx-4">MOBILE APP</span><span className="text-[#FF3B3B] mx-2">✺</span>
+                                    <span className="mx-4">WEBSITE DEV</span><span className="text-[#FF3B3B] mx-2">✺</span>
+                                    <span className="mx-4">FRONTEND</span><span className="text-[#FF3B3B] mx-2">✺</span>
+                                    <span className="mx-4">BACKEND</span><span className="text-[#FF3B3B] mx-2">✺</span>
+                                    <span className="mx-4">ENGINEER</span><span className="text-[#FF3B3B] mx-2">✺</span>
+                                    <span className="mx-4">DESIGN</span><span className="text-[#FF3B3B] mx-2">✺</span>
+                                    <span className="mx-4">UI/UX</span><span className="text-[#FF3B3B] mx-2">✺</span>
+                                    <span className="mx-4">MOBILE APP</span><span className="text-[#FF3B3B] mx-2">✺</span>
+                                    <span className="mx-4">WEBSITE DEV</span><span className="text-[#FF3B3B] mx-2">✺</span>
+                                    <span className="mx-4">FRONTEND</span><span className="text-[#FF3B3B] mx-2">✺</span>
+                                    <span className="mx-4">BACKEND</span><span className="text-[#FF3B3B] mx-2">✺</span>
+                                    <span className="mx-4">ENGINEER</span><span className="text-[#FF3B3B] mx-2">✺</span>
+                                    <span className="mx-4">DESIGN</span><span className="text-[#FF3B3B] mx-2">✺</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </Parallax>
                 </section>
 
                 <section id="skills" ref={skillsRef} className="py-20 md:py-32 px-4 sm:px-8 md:px-12 overflow-hidden">
                     <div className="max-w-7xl mx-auto text-center">
-                        <div className={`animated-item ${isSkillsVisible ? 'visible' : ''}`}>
-                            <h2 className="text-6xl md:text-8xl font-extrabold tracking-tighter text-black flex items-center justify-center">
-                                SK<span className="w-12 h-12 md:w-16 md:h-16 bg-[#FF3B3B] rounded-full mx-2"></span>LLS
-                            </h2>
-                            <div className="w-48 h-1 bg-black mx-auto mt-4"></div>
+                        <Parallax speed={-3} opacity={[0.5, 1]}>
+                            <div className={`animated-item ${isSkillsVisible ? 'visible' : ''}`}>
+                                <h2 className="text-6xl md:text-8xl font-extrabold tracking-tighter text-black flex items-center justify-center">
+                                    SKILLS
+                                </h2>
+                                <div className="w-48 h-1 bg-black mx-auto mt-4"></div>
+                            </div>
                             <section id="skills">
                                 <SkillPage />
                             </section>
-                        </div>
+                        </Parallax>
                     </div>
                 </section>
 
                 <section id="projects">
-                    <ProjectData />
+                    <Parallax speed={5}>
+                        <ProjectData />
+                    </Parallax>
                 </section>
 
                 <section id="certificates" ref={certificatesRef} className="py-20 md:py-32 px-4 sm:px-8 md:px-12 overflow-hidden">
-                    <DummyCertificates />
+                    <Parallax speed={5}>
+                        <DummyCertificates />
+                    </Parallax>
                 </section>
 
                 <section id="contact" ref={contactRef} className="py-20 md:py-32 px-4 sm:px-8 md:px-12 overflow-hidden">
                     <div className="max-w-7xl mx-auto">
-                        <div className={`animated-item ${isContactVisible ? 'visible' : ''}`}>
-                            <h2 className="font-playfair text-6xl md:text-8xl font-normal text-black">Contact us</h2>
-                        </div>
+                        <Parallax speed={-5}>
+                            <div className={`animated-item ${isContactVisible ? 'visible' : ''}`}>
+                                <h2 className="font-playfair text-6xl md:text-8xl font-normal text-black">Contact us</h2>
+                            </div>
+                        </Parallax>
 
-                        <div className={`animated-item ${isContactVisible ? 'visible' : ''} mt-4 md:mt-0`} style={{ transitionDelay: '100ms' }}>
-                            <h3 className="font-playfair text-5xl md:text-7xl text-gray-500">— Have a project?</h3>
-                        </div>
+                        <Parallax speed={-3}>
+                            <div className={`animated-item ${isContactVisible ? 'visible' : ''} mt-4 md:mt-0`} style={{ transitionDelay: '100ms' }}>
+                                <h3 className="font-playfair text-5xl md:text-7xl text-gray-500">— Have a project?</h3>
+                            </div>
+                        </Parallax>
 
                         <div className="mt-16 md:mt-24 grid grid-cols-1 md:grid-cols-3 gap-16">
-
-                            <form className="md:col-span-2 space-y-10" onSubmit={(e) => e.preventDefault()}>
-                                <div className={`animated-item ${isContactVisible ? 'visible' : ''}`} style={{ transitionDelay: '200ms' }}>
-                                    <label className="text-lg text-gray-800">What can we do for you?</label>
-                                </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                    <div className={`animated-item ${isContactVisible ? 'visible' : ''} flex flex-col`} style={{ transitionDelay: '300ms' }}>
-                                        <label htmlFor="name" className="text-lg text-gray-800">Your name</label>
-                                        <input type="text" id="name" className="mt-2 contact-input" />
+                            <Parallax speed={3}>
+                                <form className="md:col-span-2 space-y-10" onSubmit={(e) => e.preventDefault()}>
+                                    <div className={`animated-item ${isContactVisible ? 'visible' : ''}`} style={{ transitionDelay: '200ms' }}>
+                                        <label className="text-lg text-gray-800">What can we do for you?</label>
                                     </div>
-                                    <div className={`animated-item ${isContactVisible ? 'visible' : ''} flex flex-col`} style={{ transitionDelay: '400ms' }}>
-                                        <label htmlFor="email" className="text-lg text-gray-800">Your email</label>
-                                        <input type="email" id="email" className="mt-2 contact-input" />
+
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                        <div className={`animated-item ${isContactVisible ? 'visible' : ''} flex flex-col`} style={{ transitionDelay: '300ms' }}>
+                                            <label htmlFor="name" className="text-lg text-gray-800">Your name</label>
+                                            <input type="text" id="name" className="mt-2 contact-input" />
+                                        </div>
+                                        <div className={`animated-item ${isContactVisible ? 'visible' : ''} flex flex-col`} style={{ transitionDelay: '400ms' }}>
+                                            <label htmlFor="email" className="text-lg text-gray-800">Your email</label>
+                                            <input type="email" id="email" className="mt-2 contact-input" />
+                                        </div>
+                                    </div>
+
+                                    <div className={`animated-item ${isContactVisible ? 'visible' : ''} flex flex-col`} style={{ transitionDelay: '500ms' }}>
+                                        <label htmlFor="details" className="text-lg text-gray-800">Project details</label>
+                                        <textarea id="details" rows={4} className="mt-2 contact-input resize-none"></textarea>
+                                    </div>
+
+                                    <div className={`animated-item ${isContactVisible ? 'visible' : ''}`} style={{ transitionDelay: '600ms' }}>
+                                        <button type="submit" className="inline-block px-10 py-4 border-2 border-black rounded-full font-bold text-black tracking-widest hover:bg-black hover:text-white transition-all duration-300">
+                                            Send
+                                        </button>
+                                    </div>
+                                </form>
+                            </Parallax>
+
+                            <Parallax speed={5}>
+                                <div className="md:col-span-1">
+                                    <div className={`animated-item ${isContactVisible ? 'visible' : ''}`} style={{ transitionDelay: '300ms' }}>
+                                        <h4 className="text-lg text-black">Tell us about your vision:</h4>
+                                        <p className="mt-4 text-gray-600 leading-relaxed">
+                                            which challenges are you facing? What are your goals and expectations? What would success look like and how much are you planning to spend to get there?
+                                        </p>
+                                    </div>
+
+                                    <div className={`animated-item ${isContactVisible ? 'visible' : ''} mt-12`} style={{ transitionDelay: '500ms' }}>
+                                        <h4 className="text-lg text-black mb-4">Find me on:</h4>
+                                        <div className="flex space-x-6 text-gray-500">
+                                            <a href="https://www.linkedin.com/in/arifky-wildan-02369a337/" className="hover:text-black transition-colors" aria-label="LinkedIn">
+                                                <Linkedin size={24} />
+                                            </a>
+                                            <a href="https://www.instagram.com/arfkywldn/" className="hover:text-black transition-colors" aria-label="Instagram">
+                                                <Instagram size={24} />
+                                            </a>
+                                            <a href="https://github.com/ArifkyWildan" className="hover:text-black transition-colors" aria-label="Github">
+                                                <Github size={24} />
+                                            </a>
+                                            <a href="mailto:muhammadarifkywildan@gmail.com" className="hover:text-black transition-colors" aria-label="Email">
+                                                <Mail size={24} />
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
-
-                                <div className={`animated-item ${isContactVisible ? 'visible' : ''} flex flex-col`} style={{ transitionDelay: '500ms' }}>
-                                    <label htmlFor="details" className="text-lg text-gray-800">Project details</label>
-                                    <textarea id="details" rows={4} className="mt-2 contact-input resize-none"></textarea>
-                                </div>
-
-                                <div className={`animated-item ${isContactVisible ? 'visible' : ''}`} style={{ transitionDelay: '600ms' }}>
-                                    <button type="submit" className="inline-block px-10 py-4 border-2 border-black rounded-full font-bold text-black tracking-widest hover:bg-black hover:text-white transition-all duration-300">
-                                        Send
-                                    </button>
-                                </div>
-                            </form>
-
-                            <div className="md:col-span-1">
-                                <div className={`animated-item ${isContactVisible ? 'visible' : ''}`} style={{ transitionDelay: '300ms' }}>
-                                    <h4 className="text-lg text-black">Tell us about your vision:</h4>
-                                    <p className="mt-4 text-gray-600 leading-relaxed">
-                                        which challenges are you facing? What are your goals and expectations? What would success look like and how much are you planning to spend to get there?
-                                    </p>
-                                </div>
-
-                                <div className={`animated-item ${isContactVisible ? 'visible' : ''} mt-12`} style={{ transitionDelay: '500ms' }}>
-                                    <h4 className="text-lg text-black mb-4">Find me on:</h4>
-                                    <div className="flex space-x-6 text-gray-500">
-                                        <a href="https://www.linkedin.com/in/arifky-wildan-02369a337/" className="hover:text-black transition-colors" aria-label="LinkedIn">
-                                            <Linkedin size={24} />
-                                        </a>
-                                        <a href="https://www.instagram.com/arfkywldn/" className="hover:text-black transition-colors" aria-label="Instagram">
-                                            <Instagram size={24} />
-                                        </a>
-                                        <a href="https://github.com/ArifkyWildan" className="hover:text-black transition-colors" aria-label="Github">
-                                            <Github size={24} />
-                                        </a>
-                                        <a href="mailto:muhammadarifkywildan@gmail.com" className="hover:text-black transition-colors" aria-label="Email">
-                                            <Mail size={24} />
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-
+                            </Parallax>
                         </div>
                     </div>
                 </section>
             </div>
-        </>
+        </ParallaxProvider>
     );
 };
 

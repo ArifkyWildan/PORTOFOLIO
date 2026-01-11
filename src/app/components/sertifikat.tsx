@@ -1,265 +1,185 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence, Variants } from 'framer-motion';
-// import Image from 'next/image'; // Dihapus untuk memperbaiki error kompilasi
+import React, { useState, useRef } from 'react';
 
-// --- Tipe Data (jika menggunakan TypeScript) ---
-// type Certificate = {
-//   id: number;
-//   title: string;
-//   issuer: string;
-//   year: string;
-//   imageUrl: string;
-// };
-//
-// type CertificatesSectionProps = {
-//   certificates: Certificate[];
-// };
-//
-// type CertificateCardProps = {
-//   certificate: Certificate;
-//   onClick: () => void;
-// };
-//
-// type ModalProps = {
-//   imageUrl: string;
-//   onClose: () => void;
-// };
-
-// --- Data Contoh (Dummy Data) ---
-// Ganti ini dengan data asli yang Anda lewatkan sebagai props
 const dummyCertificates = [
   { id: 1, title: "Fullstack Mobile App", issuer: "GINVO Studio", year: "2025", imageUrl: "/serti1.jpg" },
   { id: 2, title: "Website Library Management", issuer: "Kreasi Media", year: "2024", imageUrl: "/serti2.jpg" },
   { id: 3, title: "Aplikasi Pemesanan Hotel Berbasis Web", issuer: "DIMENSI KREASI Nusantara", year: "2024", imageUrl: "/serti3.jpg" },
-  // --- Sertifikat ke-4 ditambahkan di sini ---
   { id: 4, title: "Landing Page Dengan HTML Dan CSS", issuer: "PT Wan Teknologi Internasional", year: "2023", imageUrl: "/serti4.jpg" },
 ];
-  // --- Akhir tambahan ---
 
-// --- Varian Animasi untuk Framer Motion ---
+export default function CertificatesSection({ certificates = dummyCertificates }) {
+  const [selectedCert, setSelectedCert] = useState(null);
+  const [draggedIndex, setDraggedIndex] = useState(null);
+  const [scale, setScale] = useState(1);
+  const containerRef = useRef(null);
+  const startXRef = useRef(0);
+  const startScaleRef = useRef(1);
 
-// Varian untuk detail card (slide-up)
-const cardDetailVariants: Variants = {
-  hidden: {
-    y: '100%',
-    opacity: 0,
-    transition: {
-      type: 'spring' as const,
-      stiffness: 300,
-      damping: 30,
-    },
-  },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      type: 'spring' as const,
-      stiffness: 300,
-      damping: 30,
-    },
-  },
-};
+  const handleMouseDown = (e, index) => {
+    setDraggedIndex(index);
+    startXRef.current = e.clientX;
+    startScaleRef.current = scale;
+  };
 
-// Varian untuk backdrop modal (fade-in/out)
-const modalBackdropVariants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1 },
-};
+  const handleMouseMove = (e) => {
+    if (draggedIndex !== null) {
+      const deltaX = e.clientX - startXRef.current;
+      const scaleChange = deltaX / 200;
+      const newScale = Math.max(0.8, Math.min(1.5, startScaleRef.current + scaleChange));
+      setScale(newScale);
+    }
+  };
 
-// Varian untuk konten modal (pop-in/out)
-const modalContentVariants = {
-  hidden: { scale: 0.9, opacity: 0 },
-  visible: {
-    scale: 1,
-    opacity: 1,
-    transition: {
-      type: "spring" as const,
-      stiffness: 260,
-      damping: 20,
-    },
-  },
-  exit: { scale: 0.9, opacity: 0 },
-};
+  const handleMouseUp = () => {
+    setDraggedIndex(null);
+  };
 
-// --- Komponen Modal ---
-// (Menerima 'imageUrl' dan 'onClose')
-type ModalProps = {
-  imageUrl: string;
-  onClose: () => void;
-};
-
-const Modal: React.FC<ModalProps> = ({ imageUrl, onClose }) => {
-  return (
-    <motion.div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
-      variants={modalBackdropVariants}
-      initial="hidden"
-      animate="visible"
-      exit="hidden"
-      onClick={onClose} // Menutup modal saat mengklik backdrop
-    >
-      <motion.div
-        className="relative max-w-3xl w-11/12 max-h-[80vh]"
-        variants={modalContentVariants}
-        // 'onClick' di sini mencegah modal tertutup saat mengklik gambar
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Konten Gambar Modal */}
-        <div className="overflow-hidden rounded-xl border border-gray-700">
-          {/* Mengganti Next/Image dengan tag <img> standar untuk kompatibilitas */}
-          <img
-            src={imageUrl}
-            alt="Sertifikat (Tampilan Penuh)"
-            className="w-full h-auto max-h-[80vh] object-contain"
-            // Properti 'width', 'height', dan 'priority' dihapus
-          />
-        </div>
-
-        {/* Tombol Tutup (✕) */}
-        <motion.button
-          className="absolute -top-4 -right-4 md:top-2 md:right-2 w-10 h-10 bg-white/10 text-white backdrop-blur-md rounded-full flex items-center justify-center text-2xl font-light leading-none z-10 border border-white/20 hover:bg-white/30 transition-colors"
-          onClick={onClose}
-          aria-label="Tutup modal"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          &times;
-        </motion.button>
-      </motion.div>
-    </motion.div>
-  );
-};
-
-// --- Komponen Card Sertifikat ---
-// (Menerima 'certificate' dan 'onClick')
-type Certificate = {
-  id: number;
-  title: string;
-  issuer: string;
-  year: string;
-  imageUrl: string;
-};
-
-type CertificateCardProps = {
-  certificate: Certificate;
-  onClick: () => void;
-};
-
-const CertificateCard: React.FC<CertificateCardProps> = ({ certificate, onClick }) => {
-  const { title, issuer, year, imageUrl } = certificate;
-
-  return (
-    <motion.div
-      className="relative w-full h-full overflow-hidden rounded-xl border border-gray-200/50 dark:border-gray-800 shadow-lg cursor-pointer"
-      // 'whileHover' akan memicu animasi pada children yang memiliki 'variants'
-      whileHover="visible"
-      initial="hidden"
-      // Desain 'Apple Card' style
-      style={{
-        backgroundColor: '#fefefe', // Latar belakang putih bersih
-      }}
-      // Menggunakan layoutId untuk potensi animasi antar halaman (opsional)
-      // layoutId={`card-container-${certificate.id}`}
-      onClick={onClick}
-    >
-      {/* Gambar Sertifikat */}
-      <div className="relative w-full aspect-[4/3] overflow-hidden">
-        {/* Mengganti Next/Image dengan tag <img> standar untuk kompatibilitas */}
-        <img
-          src={imageUrl}
-          alt={`Sertifikat ${title} dari ${issuer}`}
-          // 'absolute inset-0 w-full h-full object-cover' meniru fungsionalitas 'fill'
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
-          // Properti 'fill' dan 'sizes' dihapus
-        />
-      </div>
-
-      {/* Detail (Slide-up saat hover) */}
-      <motion.div
-        className="absolute bottom-0 left-0 right-0 p-4 md:p-5 
-                   bg-white/70 dark:bg-black/70 
-                   backdrop-blur-lg border-t border-gray-200/50 dark:border-gray-700/50"
-        variants={cardDetailVariants}
-        // 'initial' dan 'animate' akan dikontrol oleh 'whileHover' parent
-      >
-        <h3 className="font-semibold text-lg text-gray-900 dark:text-white truncate">
-          {title}
-        </h3>
-        <p className="text-sm text-gray-700 dark:text-gray-300">{issuer}</p>
-        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{year}</p>
-      </motion.div>
-    </motion.div>
-  );
-};
-
-// --- Komponen Utama (Section) ---
-// (Menerima 'certificates' sebagai props)
-export default function CertificatesSection({
-  certificates = dummyCertificates,
-}) {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  // Duplikasi data sertifikat untuk loop tak terbatas
-  const duplicatedCertificates = [...certificates, ...certificates];
-  const scrollDuration = certificates.length * 10; // Durasi scroll (misal: 10 detik per kartu)
-
-  const openModal = (imageUrl: string) => {
-    setSelectedImage(imageUrl);
+  const openModal = (cert) => {
+    setSelectedCert(cert);
   };
 
   const closeModal = () => {
-    setSelectedImage(null);
+    setSelectedCert(null);
   };
 
   return (
-    // Pastikan font 'Inter' sudah di-load di file CSS global Anda
-    // (Tailwind biasanya menyertakannya sebagai font-sans default)
-    <section className="font-inter w-full py-16 md:py-24 bg-gray-20 text-gray-900 dark:text-white">
-      <div className="container mx-auto max-w-6xl px-4">
-        {/* Judul Section */}
-        <div className="mb-12 text-center md:text-left">
-            <h2 className="text-6xl md:text-8xl font-extrabold tracking-tighter text-black flex items-center justify-center">
-                                CERTIFI<span className="w-12 h-12 md:w-16 md:h-16 bg-[#FF3B3B] rounded-full mx-2"></span>CATES
-                </h2>
-            <div className="w-48 h-1 bg-black mx-auto mt-4"></div>
+    <div
+      className="w-full min-h-screen bg-gray-50 py-16 px-4"
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp}
+    >
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <h2 className="text-7xl md:text-9xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-gray-600 via-gray-900 to-gray-600 mb-6">
+            CERTIFICATES
+          </h2>
+          <div className="flex items-center justify-center gap-4">
+            <div className="h-px w-24 bg-gradient-to-r from-transparent to-gray-300"></div>
+            <div className="w-3 h-3 rounded-full bg-gray-800"></div>
+            <div className="h-px w-24 bg-gradient-to-l from-transparent to-gray-300"></div>
+          </div>
         </div>
 
-        {/* --- Certificate Scroller (Marquee) --- */}
-        {/* Wrapper untuk fading di tepi */}
-        <div className="w-full overflow-x-hidden relative" 
-             style={{ maskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)' }}
+        {/* Certificate Gallery */}
+        <div
+          ref={containerRef}
+          className="flex justify-center items-center gap-8 flex-wrap"
         >
-          <motion.div
-            className="flex"
-            animate={{ x: [0, '-50%'] }} // Bergerak ke kiri sejauh setengah total lebar (karena diduplikasi)
-            transition={{ 
-              duration: scrollDuration, 
-              repeat: Infinity, 
-              ease: 'linear' 
-            }}
-            whileHover={{ animationPlayState: 'paused' }} // Jeda saat di-hover
-            whileTap={{ animationPlayState: 'paused' }} // Jeda saat diklik/tap
-          >
-            {duplicatedCertificates.map((cert, index) => (
-              // Beri lebar tetap pada setiap kartu di dalam scroller
-              <div key={index} className="flex-shrink-0 w-80 md:w-96 px-4"> 
-                <CertificateCard
-                  certificate={cert}
-                  onClick={() => openModal(cert.imageUrl)}
-                />
+          {certificates.map((cert, index) => (
+            <div
+              key={cert.id}
+              className="relative group cursor-pointer select-none"
+              style={{
+                transform: draggedIndex === index ? `scale(${scale})` : 'scale(1)',
+                transition: draggedIndex === index ? 'none' : 'transform 0.3s ease',
+              }}
+              onMouseDown={(e) => handleMouseDown(e, index)}
+              onClick={() => openModal(cert)}
+            >
+              {/* Card Container - Portrait Style */}
+              <div className="w-64 h-96 bg-white rounded-xl overflow-hidden shadow-xl border border-gray-300 transform transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
+                {/* Image Only */}
+                <div className="h-full overflow-hidden relative bg-gray-100">
+                  <img
+                    src={cert.imageUrl}
+                    alt={cert.title}
+                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                    draggable="false"
+                  />
+                  {/* Subtle Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
               </div>
-            ))}
-          </motion.div>
+
+              {/* Drag Indicator */}
+              {draggedIndex === index && (
+                <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-gray-500 text-xs font-mono whitespace-nowrap">
+                  Scale: {scale.toFixed(2)}x
+                </div>
+              )}
+            </div>
+          ))}
         </div>
-        {/* --- Akhir Certificate Scroller --- */}
+
+        {/* Instruction */}
+        <div className="text-center mt-16 text-gray-500 text-sm">
+          <p className="font-mono">Drag horizontally to scale • Click to view details</p>
+        </div>
       </div>
 
-      {/* Modal (Fullscreen) */}
-      {/* 'AnimatePresence' penting untuk animasi 'exit' */}
-      <AnimatePresence>
-        {selectedImage && (
-          <Modal imageUrl={selectedImage} onClose={closeModal} />
-        )}
-      </AnimatePresence>
-    </section>
+      {/* Modal */}
+      {selectedCert && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ backdropFilter: 'blur(20px)', backgroundColor: 'rgba(255, 255, 255, 0.3)' }}
+          onClick={closeModal}
+        >
+          <div
+            className="relative max-w-6xl w-full bg-white rounded-3xl overflow-hidden shadow-2xl border border-gray-300"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              onClick={closeModal}
+              className="absolute top-6 right-6 z-10 w-12 h-12 bg-gray-800 hover:bg-gray-700 text-white rounded-full flex items-center justify-center text-2xl font-light transition-all hover:scale-110"
+            >
+              ×
+            </button>
+
+            {/* Modal Content */}
+            <div className="grid md:grid-cols-5 gap-0">
+              {/* Image Side - Lebih besar */}
+              <div className="md:col-span-3 relative bg-gray-100 flex items-center justify-center p-8">
+                <img
+                  src={selectedCert.imageUrl}
+                  alt={selectedCert.title}
+                  className="w-full h-auto max-h-[80vh] object-contain rounded-lg shadow-lg"
+                />
+              </div>
+
+              {/* Details Side */}
+              <div className="md:col-span-2 p-10 md:p-12 flex flex-col justify-center bg-white">
+                <div className="mb-6">
+                  <div className="inline-block px-4 py-1 bg-gray-200 rounded-full text-gray-700 text-xs font-mono mb-4">
+                    CERTIFICATE #{selectedCert.id.toString().padStart(2, '0')}
+                  </div>
+                  <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4 leading-tight">
+                    {selectedCert.title}
+                  </h2>
+                </div>
+
+                <div className="space-y-6">
+                  <div className="border-l-4 border-gray-800 pl-4">
+                    <p className="text-gray-500 text-xs uppercase tracking-wider mb-1">Issuer</p>
+                    <p className="text-gray-900 text-lg font-semibold">{selectedCert.issuer}</p>
+                  </div>
+
+                  <div className="border-l-4 border-gray-800 pl-4">
+                    <p className="text-gray-500 text-xs uppercase tracking-wider mb-1">Year</p>
+                    <p className="text-gray-900 text-lg font-semibold">{selectedCert.year}</p>
+                  </div>
+
+                  <div className="pt-6 border-t border-gray-300">
+                    <p className="text-gray-600 text-sm leading-relaxed">
+                      This certificate validates the successful completion of the program and demonstrates
+                      proficiency in the specified skills and competencies.
+                    </p>
+                  </div>
+                </div>
+
+                <button
+                  onClick={closeModal}
+                  className="mt-8 w-full py-4 bg-gray-900 hover:bg-gray-800 text-white font-semibold rounded-xl transition-all transform hover:scale-105"
+                >
+                  Close Details
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }

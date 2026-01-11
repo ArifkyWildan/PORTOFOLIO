@@ -41,7 +41,7 @@ const PIXELS_PER_SECOND = 50;
  * Didesain ulang dengan gaya elegan dan modern.
  */
 const Card = ({ onTap, title, config, index, x, viewportWidth }: CardProps) => {
-    
+
     const inputRange = React.useMemo(() => {
         const initialX = index * (config.cardWidth + config.cardGap);
         const centerPoint = viewportWidth / 2 - config.cardWidth / 2;
@@ -64,8 +64,8 @@ const Card = ({ onTap, title, config, index, x, viewportWidth }: CardProps) => {
                 transformStyle: 'preserve-3d',
             }}
             onTap={onTap}
-            whileHover={{ 
-                scale: 1.05, 
+            whileHover={{
+                scale: 1.05,
                 zIndex: 50,
             }}
             transition={{ type: 'spring', stiffness: 300, damping: 25 }}
@@ -88,12 +88,12 @@ const SkillPage = () => {
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
     const [config, setConfig] = useState<CardConfig>(getCardConfig(typeof window !== 'undefined' ? window.innerWidth : 1200));
     const [viewportWidth, setViewportWidth] = useState(0);
-    
+
     const containerRef = useRef<HTMLDivElement | null>(null);
     const controls = useAnimation();
     const x = useMotionValue(0);
     const animationIsRunning = useRef(true);
-    
+
     // --- Scroll-triggered animation setup ---
     const sectionRef = useRef(null);
     const isInView = useInView(sectionRef, { amount: 0.2 });
@@ -141,7 +141,7 @@ const SkillPage = () => {
             }
         });
     }, [config, cardData.length, controls, x]);
-    
+
     useEffect(() => {
         if (viewportWidth > 0) {
             animationIsRunning.current = true;
@@ -152,14 +152,14 @@ const SkillPage = () => {
             controls.stop();
         };
     }, [viewportWidth, startAnimation]);
-    
+
     const activeData = activeIndex !== null ? duplicatedData[activeIndex] : null;
 
     const handleTap = (event: MouseEvent | TouchEvent | PointerEvent, index: number) => {
         event.stopPropagation();
         setActiveIndex(prevIndex => (prevIndex === index ? null : index));
     };
-    
+
     // --- Animation Variants ---
     const placeholderContainerVariants: Variants = {
         hidden: { opacity: 0 },
@@ -191,15 +191,15 @@ const SkillPage = () => {
 
 
     return (
-        <section 
-        id="skill"
+        <section
+            id="skill"
             ref={sectionRef}
             className="w-full bg-gray-50 text-gray-800 py-16 px-4 sm:px-8 md:py-24 overflow-hidden min-h-screen flex items-center"
             onClick={() => setActiveIndex(null)}
         >
-            <div  className="container mx-auto max-w-6xl">
+            <div className="container mx-auto max-w-6xl">
                 <div className="flex flex-col gap-4 items-center">
-                    
+
                     {/* Bagian Atas: Carousel */}
                     <motion.div
                         className="w-full h-[50vh] lg:h-[500px]"
@@ -207,7 +207,7 @@ const SkillPage = () => {
                         animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
                         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                     >
-                        <div 
+                        <div
                             ref={containerRef}
                             className="relative flex w-full h-full items-center overflow-hidden"
                             style={{ perspective: '1200px' }}
@@ -215,7 +215,7 @@ const SkillPage = () => {
                             <motion.div
                                 className="absolute flex"
                                 animate={controls}
-                                style={{ x, top: '50%', y: '-50%' }} 
+                                style={{ x, top: '50%', y: '-50%' }}
                             >
                                 {duplicatedData.map((data, i) => (
                                     <Card
@@ -233,7 +233,7 @@ const SkillPage = () => {
                             <div className="pointer-events-none absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-gray-50 to-transparent" />
                         </div>
                     </motion.div>
-                    
+
                     {/* Bagian Bawah: Konten Teks */}
                     <div className="w-full flex flex-col text-center lg:-mt-24">
                         <AnimatePresence mode="wait">
