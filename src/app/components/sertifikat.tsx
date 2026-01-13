@@ -20,7 +20,7 @@ export default function CertificatesSection({ certificates = dummyCertificates }
     setSelectedCert(null);
   }, []);
 
-  const handleKeyDown = useCallback((e) => {
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (e.key === 'Escape') {
       closeModal();
     }
@@ -40,7 +40,7 @@ export default function CertificatesSection({ certificates = dummyCertificates }
     }
   }, [selectedCert, handleKeyDown]);
 
-  const handleMouseDown = (e, index) => {
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
     e.preventDefault();
     e.stopPropagation();
     setDraggedIndex(index);
@@ -49,7 +49,7 @@ export default function CertificatesSection({ certificates = dummyCertificates }
     startScaleRef.current = scale;
   };
 
-  const handleMouseMove = (e) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (draggedIndex !== null) {
       const deltaX = e.clientX - startXRef.current;
 
@@ -70,11 +70,11 @@ export default function CertificatesSection({ certificates = dummyCertificates }
     }, 50);
   };
 
-  const openModal = (cert) => {
+  const openModal = (cert: typeof dummyCertificates[0]) => {
     setSelectedCert(cert);
   };
 
-  const handleCardClick = (e, cert) => {
+  const handleCardClick = (e: React.MouseEvent<HTMLDivElement>, cert: typeof dummyCertificates[0]) => {
     e.preventDefault();
     e.stopPropagation();
 
@@ -83,12 +83,12 @@ export default function CertificatesSection({ certificates = dummyCertificates }
     }
   };
 
-  const handleImageError = (e) => {
-    e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%23e5e7eb" width="400" height="300"/%3E%3Ctext fill="%236b7280" font-family="Arial" font-size="20" x="50%25" y="50%25" text-anchor="middle" dominant-baseline="middle"%3ECertificate%3C/text%3E%3C/svg%3E';
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    e.currentTarget.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%23e5e7eb" width="400" height="300"/%3E%3Ctext fill="%236b7280" font-family="Arial" font-size="20" x="50%25" y="50%25" text-anchor="middle" dominant-baseline="middle"%3ECertificate%3C/text%3E%3C/svg%3E';
   };
 
-  const handleModalImageError = (e) => {
-    e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600"%3E%3Crect fill="%23e5e7eb" width="800" height="600"/%3E%3Ctext fill="%236b7280" font-family="Arial" font-size="24" x="50%25" y="50%25" text-anchor="middle" dominant-baseline="middle"%3ECertificate Image%3C/text%3E%3C/svg%3E';
+  const handleModalImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    e.currentTarget.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600"%3E%3Crect fill="%23e5e7eb" width="800" height="600"/%3E%3Ctext fill="%236b7280" font-family="Arial" font-size="24" x="50%25" y="50%25" text-anchor="middle" dominant-baseline="middle"%3ECertificate Image%3C/text%3E%3C/svg%3E';
   };
 
   return (
