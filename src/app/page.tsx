@@ -406,42 +406,80 @@ const HeroSection = () => {
                     </div>
                 </div>
 
-                <section id="about" ref={aboutRef} className="py-20 md:py-32 px-4 sm:px-8 md:px-12 overflow-hidden">
-                    <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
-                        <Parallax speed={-5}>
-                            <div className="text-center md:text-left">
-                                <div className={`animated-item ${isAboutVisible ? 'visible' : ''} inline-flex items-center justify-center md:justify-start`}>
-                                    <h2 className="text-6xl md:text-8xl font-extrabold tracking-tighter text-black flex items-center">
-                                        AB<span className="w-12 h-12 md:w-16 md:h-16 bg-[#FF3B3B] rounded-full mx-2"></span>UT
-                                    </h2>
+                <section id="about" ref={aboutRef} className="py-20 md:py-32 px-4 sm:px-8 md:px-12 lg:px-20 overflow-hidden">
+                    <div className="max-w-[1600px] mx-auto">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+
+                            {/* Left Side - Image */}
+                            <Parallax speed={-5}>
+                                <div className={`animated-item ${isAboutVisible ? 'visible' : ''} order-2 lg:order-1`}>
+                                    <div className="relative">
+                                        {/* Main Image Container */}
+                                        <div className="relative aspect-[3/4] max-w-md mx-auto lg:mx-0 bg-black overflow-hidden">
+                                            <img
+                                                src="/profile.png"
+                                                alt="Arifky Wildan - Software Developer"
+                                                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                                            />
+
+                                            {/* Overlay Text */}
+                                            <div className="absolute top-8 left-8 text-white">
+                                                <p className="text-xs tracking-widest font-light mb-2">Arifky Wildan</p>
+                                            </div>
+                                        </div>
+
+                                        {/* Decorative Elements */}
+                                        <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-red-500 opacity-20 blur-3xl"></div>
+                                        <div className="absolute -top-4 -left-4 w-32 h-32 bg-blue-500 opacity-20 blur-3xl"></div>
+                                    </div>
+
+                                    {/* Scroll Indicator */}
+
                                 </div>
-                                <div className={`animated-item ${isAboutVisible ? 'visible' : ''} w-48 h-1 bg-black mx-auto md:mx-0 mt-4`} style={{ transitionDelay: '100ms' }}></div>
-                                <p className={`animated-item ${isAboutVisible ? 'visible' : ''} mt-8 text-gray-600 text-lg`} style={{ transitionDelay: '200ms' }}>
-                                    Hello! My name Wildan.
-                                    I am a passionate Software Developer and Fullstack Web Developer, currently studying at SMK Informatika Pesat. With a strong interest in technology and innovation, I've been developing my skills in various programming languages such as JavaScript, Laravel, and other modern web technologies. <br />
+                            </Parallax>
 
-                                    <br /> I strive to continuously improve my technical expertise and problem-solving abilities to create efficient, scalable, and user-friendly software solutions. My vision is to become a Software Engineer who contributes to meaningful projects, helping people and companies achieve their goals through technology. <br /><br />
+                            {/* Right Side - Content */}
+                            <Parallax speed={5}>
+                                <div className={`animated-item ${isAboutVisible ? 'visible' : ''} order-1 lg:order-2`} style={{ transitionDelay: '200ms' }}>
+                                    <div className="space-y-6">
 
-                                    I believe that great software can make a real impact — not only improving business operations but also making life easier for others. I'm committed to growing both personally and professionally to be a developer who builds solutions that matter.
-                                </p>
-                            </div>
-                        </Parallax>
+                                        {/* Large Name Typography */}
+                                        <div className="mb-8">
+                                            <h2 className="text-7xl md:text-8xl lg:text-9xl font-black uppercase leading-none tracking-tighter">
+                                                <span className="bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+                                                    WILDAN
+                                                </span>
+                                            </h2>
+                                            <div className="flex items-center gap-4 mt-2">
+                                                <div className="h-1 w-24 bg-black"></div>
+                                                <p className="text-sm tracking-[0.3em] text-gray-600 font-light">SOFTWARE DEVELOPER</p>
+                                            </div>
+                                        </div>
 
-                        <Parallax speed={5} scale={[0.8, 1.1]}>
-                            <div className={`relative flex justify-center items-center animated-item ${isAboutVisible ? 'visible' : ''}`} style={{ transitionDelay: '400ms' }}>
-                                <div className="relative w-72 h-72 sm:w-80 sm:h-80 lg:w-96 lg:h-96">
-                                    <svg className="absolute inset-0 w-full h-full text-[#FF3B3B] transform scale-110" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M50 0V100" stroke="currentColor" strokeWidth="6" />
-                                        <path d="M0 50H100" stroke="currentColor" strokeWidth="6" />
-                                        <path d="M15 15L85 85" stroke="currentColor" strokeWidth="6" />
-                                        <path d="M85 15L15 85" stroke="currentColor" strokeWidth="6" />
-                                    </svg>
-                                    <div className="absolute inset-0 flex justify-center items-center p-4">
-                                        <img src="/poto.jpg" alt="A portrait of Arifky Wildan, a software engineer." className="w-full h-full object-cover rounded-full filter grayscale shadow-2xl" />
+                                        {/* About Text */}
+                                        <div className="space-y-6 text-gray-700 leading-relaxed">
+                                            <p className="text-base md:text-lg">
+                                                Hello! My name is Wildan. I am a passionate <span className="font-semibold text-black">Software Developer</span> and <span className="font-semibold text-black">Fullstack Web Developer</span>, currently studying at SMK Informatika Pesat.
+                                            </p>
+
+                                            <p className="text-base md:text-lg">
+                                                With a strong interest in technology and innovation, I've been developing my skills in various programming languages such as <span className="font-semibold text-black">JavaScript, Laravel</span>, and other modern web technologies.
+                                            </p>
+
+                                            <p className="text-base md:text-lg">
+                                                I strive to continuously improve my technical expertise and problem-solving abilities to create <span className="font-semibold text-black">efficient, scalable, and user-friendly</span> software solutions.
+                                            </p>
+
+                                            <p className="text-base md:text-lg">
+                                                My vision is to become a Software Engineer who contributes to meaningful projects, helping people and companies achieve their goals through technology.
+                                            </p>
+                                        </div>
+
                                     </div>
                                 </div>
-                            </div>
-                        </Parallax>
+                            </Parallax>
+
+                        </div>
                     </div>
                 </section>
 
@@ -688,7 +726,7 @@ const HeroSection = () => {
                     </div>
                 </section>
             </div>
-        </ParallaxProvider>
+        </ParallaxProvider >
     );
 };
 

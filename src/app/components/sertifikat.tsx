@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 
 const dummyCertificates = [
   { id: 1, title: "Fullstack Mobile App", issuer: "GINVO Studio", year: "2025", imageUrl: "/serti1.jpg" },
@@ -8,22 +8,55 @@ const dummyCertificates = [
 ];
 
 export default function CertificatesSection({ certificates = dummyCertificates }) {
-  const [selectedCert, setSelectedCert] = useState<typeof dummyCertificates[0] | null>(null);
-  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+  const [selectedCert, setSelectedCert] = useState(null);
+  const [draggedIndex, setDraggedIndex] = useState(null);
   const [scale, setScale] = useState(1);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef(null);
   const startXRef = useRef(0);
   const startScaleRef = useRef(1);
+  const isDraggingRef = useRef(false);
 
-  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
+  const closeModal = useCallback(() => {
+    setSelectedCert(null);
+  }, []);
+
+  const handleKeyDown = useCallback((e) => {
+    if (e.key === 'Escape') {
+      closeModal();
+    }
+  }, [closeModal]);
+
+  useEffect(() => {
+    if (selectedCert) {
+      document.addEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'hidden';
+
+      return () => {
+        document.removeEventListener('keydown', handleKeyDown);
+        document.body.style.overflow = 'unset';
+      };
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [selectedCert, handleKeyDown]);
+
+  const handleMouseDown = (e, index) => {
+    e.preventDefault();
+    e.stopPropagation();
     setDraggedIndex(index);
+    isDraggingRef.current = false;
     startXRef.current = e.clientX;
     startScaleRef.current = scale;
   };
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseMove = (e) => {
     if (draggedIndex !== null) {
       const deltaX = e.clientX - startXRef.current;
+
+      if (Math.abs(deltaX) > 5) {
+        isDraggingRef.current = true;
+      }
+
       const scaleChange = deltaX / 200;
       const newScale = Math.max(0.8, Math.min(1.5, startScaleRef.current + scaleChange));
       setScale(newScale);
@@ -32,14 +65,30 @@ export default function CertificatesSection({ certificates = dummyCertificates }
 
   const handleMouseUp = () => {
     setDraggedIndex(null);
+    setTimeout(() => {
+      isDraggingRef.current = false;
+    }, 50);
   };
 
-  const openModal = (cert: typeof dummyCertificates[0]) => {
+  const openModal = (cert) => {
     setSelectedCert(cert);
   };
 
-  const closeModal = () => {
-    setSelectedCert(null);
+  const handleCardClick = (e, cert) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!isDraggingRef.current) {
+      openModal(cert);
+    }
+  };
+
+  const handleImageError = (e) => {
+    e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%23e5e7eb" width="400" height="300"/%3E%3Ctext fill="%236b7280" font-family="Arial" font-size="20" x="50%25" y="50%25" text-anchor="middle" dominant-baseline="middle"%3ECertificate%3C/text%3E%3C/svg%3E';
+  };
+
+  const handleModalImageError = (e) => {
+    e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600"%3E%3Crect fill="%23e5e7eb" width="800" height="600"/%3E%3Ctext fill="%236b7280" font-family="Arial" font-size="24" x="50%25" y="50%25" text-anchor="middle" dominant-baseline="middle"%3ECertificate Image%3C/text%3E%3C/svg%3E';
   };
 
   return (
@@ -52,7 +101,7 @@ export default function CertificatesSection({ certificates = dummyCertificates }
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-7xl md:text-9xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-gray-600 via-gray-900 to-gray-600 mb-6">
+          <h2 className="text-5xl md:text-7xl lg:text-9xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-gray-600 via-gray-900 to-gray-600 mb-6">
             CERTIFICATES
           </h2>
           <div className="flex items-center justify-center gap-4">
@@ -76,26 +125,27 @@ export default function CertificatesSection({ certificates = dummyCertificates }
                 transition: draggedIndex === index ? 'none' : 'transform 0.3s ease',
               }}
               onMouseDown={(e) => handleMouseDown(e, index)}
-              onClick={() => openModal(cert)}
+              onClick={(e) => handleCardClick(e, cert)}
             >
-              {/* Card Container - Portrait Style */}
-              <div className="w-64 h-96 bg-white rounded-xl overflow-hidden shadow-xl border border-gray-300 transform transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
-                {/* Image Only */}
-                <div className="h-full overflow-hidden relative bg-gray-100">
+              {/* Card Container */}
+              <div className="bg-white rounded-xl overflow-hidden shadow-xl border border-gray-300 transform transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
+                {/* Image Container */}
+                <div className="relative bg-gray-100 flex items-center justify-center p-6">
                   <img
                     src={cert.imageUrl}
                     alt={cert.title}
-                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                    className="w-full h-auto max-w-md object-contain blur-md group-hover:blur-none transition-all duration-500 rounded-lg"
                     draggable="false"
+                    onError={handleImageError}
                   />
                   {/* Subtle Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
                 </div>
               </div>
 
               {/* Drag Indicator */}
               {draggedIndex === index && (
-                <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-gray-500 text-xs font-mono whitespace-nowrap">
+                <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-gray-500 text-xs font-mono whitespace-nowrap pointer-events-none">
                   Scale: {scale.toFixed(2)}x
                 </div>
               )}
@@ -112,8 +162,8 @@ export default function CertificatesSection({ certificates = dummyCertificates }
       {/* Modal */}
       {selectedCert && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          style={{ backdropFilter: 'blur(20px)', backgroundColor: 'rgba(255, 255, 255, 0.3)' }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-white bg-opacity-30"
+          style={{ backdropFilter: 'blur(20px)' }}
           onClick={closeModal}
         >
           <div
@@ -124,18 +174,20 @@ export default function CertificatesSection({ certificates = dummyCertificates }
             <button
               onClick={closeModal}
               className="absolute top-6 right-6 z-10 w-12 h-12 bg-gray-800 hover:bg-gray-700 text-white rounded-full flex items-center justify-center text-2xl font-light transition-all hover:scale-110"
+              aria-label="Close modal"
             >
               ×
             </button>
 
             {/* Modal Content */}
             <div className="grid md:grid-cols-5 gap-0">
-              {/* Image Side - Lebih besar */}
+              {/* Image Side */}
               <div className="md:col-span-3 relative bg-gray-100 flex items-center justify-center p-8">
                 <img
                   src={selectedCert.imageUrl}
                   alt={selectedCert.title}
                   className="w-full h-auto max-h-[80vh] object-contain rounded-lg shadow-lg"
+                  onError={handleModalImageError}
                 />
               </div>
 
