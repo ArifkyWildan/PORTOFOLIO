@@ -8,10 +8,10 @@ const dummyCertificates = [
 ];
 
 export default function CertificatesSection({ certificates = dummyCertificates }) {
-  const [selectedCert, setSelectedCert] = useState(null);
-  const [draggedIndex, setDraggedIndex] = useState(null);
+  const [selectedCert, setSelectedCert] = useState<typeof dummyCertificates[0] | null>(null);
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
   const [scale, setScale] = useState(1);
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const startXRef = useRef(0);
   const startScaleRef = useRef(1);
   const isDraggingRef = useRef(false);
