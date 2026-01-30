@@ -1,5 +1,3 @@
-// PART 1 - COPY SEMUA CODE INI KE FILE ANDA
-// File: page.tsx atau HeroSection.tsx
 
 "use client";
 
@@ -13,7 +11,7 @@ import ProjectData from "./components/project";
 import DummyCertificates from "./components/sertifikat";
 
 //=================================================================
-// KOMPONEN NAVBAR MODERN
+// KOMPONEN NAVBAR MODERN - RESPONSIVE
 //=================================================================
 type NavItem = {
     label: string;
@@ -350,6 +348,7 @@ const HeroSection = () => {
                 <div>
                     <ModernNavbar />
 
+                    {/* ===== HERO SECTION - RESPONSIVE ===== */}
                     <div className="relative w-full h-screen overflow-hidden bg-black">
                         <Parallax speed={-10}>
                             <div
@@ -365,17 +364,17 @@ const HeroSection = () => {
 
                         <div className="absolute inset-0 bg-black/30" />
 
-                        <div className="relative z-10 h-full flex items-center px-8 md:px-16 lg:px-24">
+                        <div className="relative z-10 h-full flex items-center px-4 sm:px-8 md:px-16 lg:px-24">
                             <div className="max-w-4xl">
                                 <Parallax speed={5}>
-                                    <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-light text-white tracking-wider leading-tight mb-2">
+                                    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-light text-white tracking-wider leading-tight mb-2">
                                         SOFTWARE
                                     </h1>
                                 </Parallax>
                                 <Parallax speed={8}>
-                                    <div className="flex items-center gap-3">
-                                        <span className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-light text-white tracking-wider">&</span>
-                                        <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-light text-white tracking-wider">
+                                    <div className="flex items-center gap-2 sm:gap-3">
+                                        <span className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-light text-white tracking-wider">&</span>
+                                        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-light text-white tracking-wider">
                                             DEVELOPER
                                         </h1>
                                     </div>
@@ -384,21 +383,21 @@ const HeroSection = () => {
                         </div>
 
                         <Parallax speed={-5}>
-                            <div className="absolute bottom-8 left-8 z-20">
-                                <p className="text-white text-sm sm:text-base font-light tracking-wide">
+                            <div className="absolute bottom-4 sm:bottom-8 left-4 sm:left-8 z-20">
+                                <p className="text-white text-xs sm:text-sm md:text-base font-light tracking-wide">
                                     Arifky Wildan
                                 </p>
                             </div>
                         </Parallax>
 
                         <Parallax speed={-5}>
-                            <div className="absolute bottom-8 right-8 z-20 flex items-center gap-2">
-                                <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div className="absolute bottom-4 sm:bottom-8 right-4 sm:right-8 z-20 flex items-center gap-2">
+                                <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                                    <svg className="w-3 h-3 sm:w-4 sm:h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                     </svg>
                                 </div>
-                                <p className="text-white text-sm sm:text-base font-light">
+                                <p className="hidden sm:block text-white text-xs sm:text-sm md:text-base font-light">
                                     muhammadarifkywildan@gmail.com
                                 </p>
                             </div>
@@ -406,7 +405,8 @@ const HeroSection = () => {
                     </div>
                 </div>
 
-                <section id="about" ref={aboutRef} className="py-20 md:py-32 px-4 sm:px-8 md:px-12 lg:px-20 overflow-hidden">
+                {/* ===== ABOUT SECTION - RESPONSIVE ===== */}
+                <section id="about" ref={aboutRef} className="py-12 sm:py-20 md:py-32 px-4 sm:px-8 md:px-12 lg:px-20 overflow-hidden">
                     <div className="max-w-[1600px] mx-auto">
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
 
@@ -423,7 +423,7 @@ const HeroSection = () => {
                                             />
 
                                             {/* Overlay Text */}
-                                            <div className="absolute top-8 left-8 text-white">
+                                            <div className="absolute top-4 sm:top-8 left-4 sm:left-8 text-white">
                                                 <p className="text-xs tracking-widest font-light mb-2">Arifky Wildan</p>
                                             </div>
                                         </div>
@@ -445,32 +445,32 @@ const HeroSection = () => {
 
                                         {/* Large Name Typography */}
                                         <div className="mb-8">
-                                            <h2 className="text-7xl md:text-8xl lg:text-9xl font-black uppercase leading-none tracking-tighter">
+                                            <h2 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black uppercase leading-none tracking-tighter">
                                                 <span className="bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
                                                     WILDAN
                                                 </span>
                                             </h2>
                                             <div className="flex items-center gap-4 mt-2">
-                                                <div className="h-1 w-24 bg-black"></div>
-                                                <p className="text-sm tracking-[0.3em] text-gray-600 font-light">SOFTWARE DEVELOPER</p>
+                                                <div className="h-1 w-16 sm:w-24 bg-black"></div>
+                                                <p className="text-xs sm:text-sm tracking-[0.2em] sm:tracking-[0.3em] text-gray-600 font-light">SOFTWARE DEVELOPER</p>
                                             </div>
                                         </div>
 
                                         {/* About Text */}
                                         <div className="space-y-6 text-gray-700 leading-relaxed">
-                                            <p className="text-base md:text-lg">
+                                            <p className="text-sm sm:text-base md:text-lg">
                                                 Hello! My name is Wildan. I am a passionate <span className="font-semibold text-black">Software Developer</span> and <span className="font-semibold text-black">Fullstack Web Developer</span>, currently studying at SMK Informatika Pesat.
                                             </p>
 
-                                            <p className="text-base md:text-lg">
+                                            <p className="text-sm sm:text-base md:text-lg">
                                                 With a strong interest in technology and innovation, I've been developing my skills in various programming languages such as <span className="font-semibold text-black">JavaScript, Laravel</span>, and other modern web technologies.
                                             </p>
 
-                                            <p className="text-base md:text-lg">
+                                            <p className="text-sm sm:text-base md:text-lg">
                                                 I strive to continuously improve my technical expertise and problem-solving abilities to create <span className="font-semibold text-black">efficient, scalable, and user-friendly</span> software solutions.
                                             </p>
 
-                                            <p className="text-base md:text-lg">
+                                            <p className="text-sm sm:text-base md:text-lg">
                                                 My vision is to become a Software Engineer who contributes to meaningful projects, helping people and companies achieve their goals through technology.
                                             </p>
                                         </div>
@@ -483,39 +483,41 @@ const HeroSection = () => {
                     </div>
                 </section>
 
-                <section className="w-full py-12 md:py-20 overflow-hidden">
+                {/* ===== SCROLLING TEXT SECTION - RESPONSIVE ===== */}
+                <section className="w-full py-8 sm:py-12 md:py-20 overflow-hidden">
                     <Parallax speed={10}>
-                        <div className="transform -rotate-3 scale-110 bg-black text-white py-4">
+                        <div className="transform -rotate-2 sm:-rotate-3 scale-105 sm:scale-110 bg-black text-white py-3 sm:py-4">
                             <div className="scrolling-text-container">
-                                <div className="scrolling-text text-lg font-medium tracking-widest italic">
-                                    <span className="mx-4">UI/UX</span><span className="text-[#FF3B3B] mx-2">✺</span>
-                                    <span className="mx-4">MOBILE APP</span><span className="text-[#FF3B3B] mx-2">✺</span>
-                                    <span className="mx-4">WEBSITE DEV</span><span className="text-[#FF3B3B] mx-2">✺</span>
-                                    <span className="mx-4">FRONTEND</span><span className="text-[#FF3B3B] mx-2">✺</span>
-                                    <span className="mx-4">BACKEND</span><span className="text-[#FF3B3B] mx-2">✺</span>
-                                    <span className="mx-4">ENGINEER</span><span className="text-[#FF3B3B] mx-2">✺</span>
-                                    <span className="mx-4">DESIGN</span><span className="text-[#FF3B3B] mx-2">✺</span>
-                                    <span className="mx-4">UI/UX</span><span className="text-[#FF3B3B] mx-2">✺</span>
-                                    <span className="mx-4">MOBILE APP</span><span className="text-[#FF3B3B] mx-2">✺</span>
-                                    <span className="mx-4">WEBSITE DEV</span><span className="text-[#FF3B3B] mx-2">✺</span>
-                                    <span className="mx-4">FRONTEND</span><span className="text-[#FF3B3B] mx-2">✺</span>
-                                    <span className="mx-4">BACKEND</span><span className="text-[#FF3B3B] mx-2">✺</span>
-                                    <span className="mx-4">ENGINEER</span><span className="text-[#FF3B3B] mx-2">✺</span>
-                                    <span className="mx-4">DESIGN</span><span className="text-[#FF3B3B] mx-2">✺</span>
+                                <div className="scrolling-text text-sm sm:text-base md:text-lg font-medium tracking-widest italic">
+                                    <span className="mx-2 sm:mx-4">UI/UX</span><span className="text-[#FF3B3B] mx-1 sm:mx-2">✺</span>
+                                    <span className="mx-2 sm:mx-4">MOBILE APP</span><span className="text-[#FF3B3B] mx-1 sm:mx-2">✺</span>
+                                    <span className="mx-2 sm:mx-4">WEBSITE DEV</span><span className="text-[#FF3B3B] mx-1 sm:mx-2">✺</span>
+                                    <span className="mx-2 sm:mx-4">FRONTEND</span><span className="text-[#FF3B3B] mx-1 sm:mx-2">✺</span>
+                                    <span className="mx-2 sm:mx-4">BACKEND</span><span className="text-[#FF3B3B] mx-1 sm:mx-2">✺</span>
+                                    <span className="mx-2 sm:mx-4">ENGINEER</span><span className="text-[#FF3B3B] mx-1 sm:mx-2">✺</span>
+                                    <span className="mx-2 sm:mx-4">DESIGN</span><span className="text-[#FF3B3B] mx-1 sm:mx-2">✺</span>
+                                    <span className="mx-2 sm:mx-4">UI/UX</span><span className="text-[#FF3B3B] mx-1 sm:mx-2">✺</span>
+                                    <span className="mx-2 sm:mx-4">MOBILE APP</span><span className="text-[#FF3B3B] mx-1 sm:mx-2">✺</span>
+                                    <span className="mx-2 sm:mx-4">WEBSITE DEV</span><span className="text-[#FF3B3B] mx-1 sm:mx-2">✺</span>
+                                    <span className="mx-2 sm:mx-4">FRONTEND</span><span className="text-[#FF3B3B] mx-1 sm:mx-2">✺</span>
+                                    <span className="mx-2 sm:mx-4">BACKEND</span><span className="text-[#FF3B3B] mx-1 sm:mx-2">✺</span>
+                                    <span className="mx-2 sm:mx-4">ENGINEER</span><span className="text-[#FF3B3B] mx-1 sm:mx-2">✺</span>
+                                    <span className="mx-2 sm:mx-4">DESIGN</span><span className="text-[#FF3B3B] mx-1 sm:mx-2">✺</span>
                                 </div>
                             </div>
                         </div>
                     </Parallax>
                 </section>
 
-                <section id="skills" ref={skillsRef} className="py-20 md:py-32 px-4 sm:px-8 md:px-12 overflow-hidden">
+                {/* ===== SKILLS SECTION - RESPONSIVE ===== */}
+                <section id="skills" ref={skillsRef} className="py-12 sm:py-20 md:py-32 px-4 sm:px-8 md:px-12 overflow-hidden">
                     <div className="max-w-7xl mx-auto text-center">
                         <Parallax speed={-3} opacity={[0.5, 1]}>
                             <div className={`animated-item ${isSkillsVisible ? 'visible' : ''}`}>
-                                <h2 className="text-6xl md:text-8xl font-extrabold tracking-tighter text-black flex items-center justify-center">
+                                <h2 className="text-4xl sm:text-6xl md:text-8xl font-extrabold tracking-tighter text-black flex items-center justify-center">
                                     SKILLS
                                 </h2>
-                                <div className="w-48 h-1 bg-black mx-auto mt-4"></div>
+                                <div className="w-32 sm:w-48 h-1 bg-black mx-auto mt-4"></div>
                             </div>
                             <section id="skills">
                                 <SkillPage />
@@ -524,27 +526,31 @@ const HeroSection = () => {
                     </div>
                 </section>
 
+                {/* ===== PROJECTS SECTION ===== */}
                 <section id="projects">
                     <Parallax speed={5}>
                         <ProjectData />
                     </Parallax>
                 </section>
 
-                <section id="certificates" ref={certificatesRef} className="py-20 md:py-32 px-4 sm:px-8 md:px-12 overflow-hidden">
+                {/* ===== CERTIFICATES SECTION ===== */}
+                <section id="certificates" ref={certificatesRef} className="py-12 sm:py-20 md:py-32 px-4 sm:px-8 md:px-12 overflow-hidden">
                     <Parallax speed={5}>
                         <DummyCertificates />
                     </Parallax>
                 </section>
 
-                {/* CONTACT SECTION DENGAN EMAILJS - LANJUTAN DARI PART 1 */}
-                <section id="contact" ref={contactRef} className="py-20 md:py-32 px-4 sm:px-8 md:px-12 overflow-hidden">
+                {/* ===== CONTACT SECTION DENGAN EMAILJS - RESPONSIVE ===== */}
+                <section id="contact" ref={contactRef} className="py-12 sm:py-20 md:py-32 px-4 sm:px-8 md:px-12 overflow-hidden">
                     <div className="min-h-screen bg-gray-50">
-                        <main className="max-w-7xl mx-auto px-6 py-16">
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-                                <div>
-                                    <h1 className="text-7xl font-bold mb-8">Contact me</h1>
+                        <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-16">
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-16">
 
-                                    <div className="space-y-6 text-sm">
+                                {/* Left Column - Contact Info */}
+                                <div>
+                                    <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold mb-6 sm:mb-8">Contact me</h1>
+
+                                    <div className="space-y-4 sm:space-y-6 text-xs sm:text-sm">
                                         <div>
                                             <p className="text-gray-600">Bogor, Indonesia</p>
                                             <p className="text-gray-600">2026</p>
@@ -557,46 +563,47 @@ const HeroSection = () => {
                                         </div>
                                     </div>
 
-                                    <div className="mt-32">
-                                        <h2 className="text-3xl font-bold mb-4">muhammadarifkywildan@gmail.com</h2>
+                                    <div className="mt-16 sm:mt-32">
+                                        <h2 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4 break-words">muhammadarifkywildan@gmail.com</h2>
 
-                                        <div className="space-y-4 text-sm">
+                                        <div className="space-y-3 sm:space-y-4 text-xs sm:text-sm">
                                             <div>
                                                 <p className="text-gray-600">Bogor, Indonesia</p>
                                                 <p className="text-gray-600">2026</p>
                                             </div>
 
-                                            <div className="flex items-center space-x-2">
+                                            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-0 sm:space-x-2">
                                                 <span className="text-gray-600">Monday - Friday, 8 AM - 7 PM</span>
-                                                <span className="text-gray-400">|</span>
+                                                <span className="hidden sm:inline text-gray-400">|</span>
                                                 <a href="#" className="text-gray-600 hover:text-black underline">Work with me</a>
                                             </div>
                                         </div>
 
-                                        <div className="mt-6 flex items-center space-x-6">
+                                        <div className="mt-4 sm:mt-6 flex items-center space-x-4 sm:space-x-6">
                                             <a href="https://www.linkedin.com/in/arifky-wildan-02369a337/" className="text-gray-600 hover:text-black" target="_blank" rel="noopener noreferrer">
-                                                <Linkedin size={20} />
+                                                <Linkedin className="w-5 h-5" />
                                             </a>
                                             <a href="https://www.instagram.com/arfkywldn/" className="text-gray-600 hover:text-black" target="_blank" rel="noopener noreferrer">
-                                                <Instagram size={20} />
+                                                <Instagram className="w-5 h-5" />
                                             </a>
                                             <a href="https://github.com/ArifkyWildan" className="text-gray-600 hover:text-black" target="_blank" rel="noopener noreferrer">
-                                                <Github size={20} />
+                                                <Github className="w-5 h-5" />
                                             </a>
                                             <a href="mailto:muhammadarifkywildan@gmail.com" className="text-gray-600 hover:text-black" target="_blank" rel="noopener noreferrer">
-                                                <Mail size={20} />
+                                                <Mail className="w-5 h-5" />
                                             </a>
                                         </div>
                                     </div>
                                 </div>
 
+                                {/* Right Column - Contact Form */}
                                 <div>
-                                    <div className="space-y-6">
+                                    <div className="space-y-4 sm:space-y-6">
                                         <div>
-                                            <label className="block text-sm font-medium mb-2">
+                                            <label className="block text-xs sm:text-sm font-medium mb-2">
                                                 Name <span className="text-red-500">*</span>
                                             </label>
-                                            <div className="grid grid-cols-2 gap-4">
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                                                 <div>
                                                     <input
                                                         type="text"
@@ -604,7 +611,7 @@ const HeroSection = () => {
                                                         value={formData.firstName}
                                                         onChange={handleChange}
                                                         placeholder="First Name"
-                                                        className="w-full px-0 py-2 border-b border-gray-300 focus:border-black outline-none bg-transparent text-sm"
+                                                        className="w-full px-0 py-2 border-b border-gray-300 focus:border-black outline-none bg-transparent text-xs sm:text-sm"
                                                     />
                                                 </div>
                                                 <div>
@@ -614,14 +621,14 @@ const HeroSection = () => {
                                                         value={formData.lastName}
                                                         onChange={handleChange}
                                                         placeholder="Last Name"
-                                                        className="w-full px-0 py-2 border-b border-gray-300 focus:border-black outline-none bg-transparent text-sm"
+                                                        className="w-full px-0 py-2 border-b border-gray-300 focus:border-black outline-none bg-transparent text-xs sm:text-sm"
                                                     />
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div>
-                                            <label htmlFor="service" className="block text-sm font-medium mb-2">
+                                            <label htmlFor="service" className="block text-xs sm:text-sm font-medium mb-2">
                                                 Service
                                             </label>
                                             <select
@@ -629,7 +636,7 @@ const HeroSection = () => {
                                                 name="service"
                                                 value={formData.service}
                                                 onChange={handleChange}
-                                                className="w-full px-0 py-2 border-b border-gray-300 focus:border-black outline-none bg-transparent text-sm text-gray-600"
+                                                className="w-full px-0 py-2 border-b border-gray-300 focus:border-black outline-none bg-transparent text-xs sm:text-sm text-gray-600"
                                             >
                                                 <option value="">Select a service</option>
                                                 <option value="web-design">Web Design</option>
@@ -640,7 +647,7 @@ const HeroSection = () => {
                                         </div>
 
                                         <div>
-                                            <label htmlFor="email" className="block text-sm font-medium mb-2">
+                                            <label htmlFor="email" className="block text-xs sm:text-sm font-medium mb-2">
                                                 Email <span className="text-red-500">*</span>
                                             </label>
                                             <input
@@ -649,12 +656,12 @@ const HeroSection = () => {
                                                 name="email"
                                                 value={formData.email}
                                                 onChange={handleChange}
-                                                className="w-full px-0 py-2 border-b border-gray-300 focus:border-black outline-none bg-transparent text-sm"
+                                                className="w-full px-0 py-2 border-b border-gray-300 focus:border-black outline-none bg-transparent text-xs sm:text-sm"
                                             />
                                         </div>
 
                                         <div>
-                                            <label htmlFor="description" className="block text-sm font-medium mb-2">
+                                            <label htmlFor="description" className="block text-xs sm:text-sm font-medium mb-2">
                                                 Project description
                                             </label>
                                             <textarea
@@ -663,25 +670,25 @@ const HeroSection = () => {
                                                 value={formData.description}
                                                 onChange={handleChange}
                                                 rows={4}
-                                                className="w-full px-0 py-2 border-b border-gray-300 focus:border-black outline-none bg-transparent text-sm resize-none"
+                                                className="w-full px-0 py-2 border-b border-gray-300 focus:border-black outline-none bg-transparent text-xs sm:text-sm resize-none"
                                             ></textarea>
                                         </div>
 
                                         {submitStatus === 'success' && (
-                                            <div className="p-4 bg-green-50 border border-green-200 rounded-lg animate-fade-in">
-                                                <p className="text-green-800 text-sm">
+                                            <div className="p-3 sm:p-4 bg-green-50 border border-green-200 rounded-lg animate-fade-in">
+                                                <p className="text-green-800 text-xs sm:text-sm">
                                                     ✓ Message sent successfully! I'll get back to you soon.
                                                 </p>
                                             </div>
                                         )}
 
                                         {submitStatus === 'error' && (
-                                            <div className="p-4 bg-red-50 border border-red-200 rounded-lg animate-fade-in">
-                                                <p className="text-red-800 text-sm">
+                                            <div className="p-3 sm:p-4 bg-red-50 border border-red-200 rounded-lg animate-fade-in">
+                                                <p className="text-red-800 text-xs sm:text-sm">
                                                     ✗ Failed to send message. Please try again or email me directly at{' '}
                                                     <a
                                                         href="mailto:muhammadarifkywildan@gmail.com"
-                                                        className="underline hover:text-red-900"
+                                                        className="underline hover:text-red-900 break-all"
                                                     >
                                                         muhammadarifkywildan@gmail.com
                                                     </a>
@@ -692,12 +699,12 @@ const HeroSection = () => {
                                         <button
                                             onClick={handleSubmit}
                                             disabled={isSubmitting}
-                                            className={`px-8 py-3 bg-black text-white text-sm font-medium rounded hover:bg-gray-800 transition-all duration-300 ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer shadow-md hover:shadow-lg'
+                                            className={`w-full sm:w-auto px-6 sm:px-8 py-2.5 sm:py-3 bg-black text-white text-xs sm:text-sm font-medium rounded hover:bg-gray-800 transition-all duration-300 ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer shadow-md hover:shadow-lg'
                                                 }`}
                                         >
                                             {isSubmitting ? (
                                                 <span className="flex items-center justify-center">
-                                                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                    <svg className="animate-spin -ml-1 mr-3 h-4 w-4 sm:h-5 sm:w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                                     </svg>
@@ -709,16 +716,17 @@ const HeroSection = () => {
                                         </button>
                                     </div>
 
-                                    <div className="mt-12 text-sm text-gray-600">
+                                    <div className="mt-8 sm:mt-12 text-xs sm:text-sm text-gray-600">
                                         <p>Say hello. <a href="mailto:muhammadarifkywildan@gmail.com" className="underline hover:text-black">Work with me</a></p>
                                     </div>
                                 </div>
                             </div>
                         </main>
 
-                        <footer className="border-t border-gray-200 mt-20">
-                            <div className="max-w-7xl mx-auto px-6 py-6">
-                                <p className="text-xs text-gray-500">
+                        {/* Footer */}
+                        <footer className="border-t border-gray-200 mt-12 sm:mt-20">
+                            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
+                                <p className="text-xs text-gray-500 text-center sm:text-left">
                                     © 2025 Arifky Wildan | Built with Next.js & EmailJS
                                 </p>
                             </div>
@@ -726,7 +734,7 @@ const HeroSection = () => {
                     </div>
                 </section>
             </div>
-        </ParallaxProvider >
+        </ParallaxProvider>
     );
 };
 
